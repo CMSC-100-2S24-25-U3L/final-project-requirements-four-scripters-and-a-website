@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Management</title>
+</head>
+<body>
+  <h1>User Management</h1>  <!-- Header of the website -->
+
+  <!-- Create User Form -->
+  <h2>Create User</h2> <!-- heading for the create user form -->
+  <form id="createForm"> <!-- form to create a new user -->
+    <input type="email" id="email" placeholder="Email" required> <!-- email input field -->
+    <input type="text" id="firstName" placeholder="First Name" required> <!-- first name input field -->
+    <input type="text" id="middleName" placeholder="Middle Name"> <!-- middle name input field (optional) -->
+    <input type="text" id="lastName" placeholder="Last Name" required> <!-- last name input field -->
+    <input type="password" id="password" placeholder="Password" required> <!-- password input field -->
+    <button type="submit">Create User</button> <!-- button to submit the form -->
+    <div id="createError"></div> <!-- placeholder for error messages during user creation -->
+  </form>
+
+  <!-- Update User Form -->
+  <h2>Update User</h2> <!-- heading for the update user form -->
+  <form id="updateForm"> <!-- form to update an existing user -->
+    <input type="email" id="updateEmail" placeholder="User Email to Update" required> <!-- email input to identify user -->
+    <input type="text" id="newFirstName" placeholder="New First Name"> <!-- new first name input field -->
+    <input type="text" id="newMiddleName" placeholder="New Middle Name"> <!-- new middle name input field -->
+    <input type="text" id="newLastName" placeholder="New Last Name"> <!-- new last name input field -->
+    <button type="submit">Update User</button> <!-- button to submit the update form -->
+    <div id="updateError"></div> <!-- placeholder for error messages during user update -->
+  </form>
+
+  <!-- Delete User Form -->
+  <h2>Delete User</h2> <!-- heading for the delete user form -->
+  <form id="deleteForm"> <!-- form to delete an existing user -->
+    <input type="email" id="deleteEmail" placeholder="User Email to Delete" required> <!-- email input to identify user -->
+    <button type="submit">Delete User</button> <!-- button to submit the delete form -->
+    <div id="deleteError"></div> <!-- placeholder for error messages during user deletion -->
+  </form>
+
+  <!-- User List -->
+  <h2>User List</h2> <!-- heading for the user list section -->
+  <button id="refreshUsers">Refresh List</button> <!-- button to refresh the list of users -->
+  <table id="userTable"> <!-- table to display the list of users -->
+    <thead>
+      <tr> <!-- table header row -->
+        <th>Email</th> <!-- email column header -->
+        <th>First Name</th> <!-- first name column header -->
+        <th>Middle Name</th> <!-- middle name column header -->
+        <th>Last Name</th> <!-- last name column header -->
+      </tr>
+    </thead>
+    <tbody></tbody> <!-- tbody will be populated dynamically with user data -->
+  </table>
+
+  <script>
+    const API_BASE = 'http://localhost:3000/users'; // base URL for API calls
+
+    // helper function for API calls
+    async function callApi(endpoint, method, body) { 
+      try {
+        const response = await fetch(`${API_BASE}${endpoint}`, { // sends request to API
+          method, // HTTP method (GET, POST, PUT, DELETE)
+          headers: { 'Content-Type': 'application/json' }, // sets content type to JSON
+          body: body ? JSON.stringify(body) : undefined // sends request body if provided
+        });
+        
+        if (!response.ok) { // check if response was not successful
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Request failed'); // throws error if request fails
+        }
+        
+        return await response.json(); // returns the parsed JSON data from the response
+      } catch (error) {
+        console.error('API call failed:', error); // logs error if the API call fail
+        throw error; // rethrows error for further handling
+      }
+    }
+
+    // Create User
+    document.getElementById('createForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); // prevents form from refreshing the page
+      const errorElement = document.getElementById('createError');
+      errorElement.textContent = ''; // clears any previous error message
+      
+      try {
+        const user = { // gathers data from the form fields
+          email: document.getElementById('email').value,
+          firstName: document.getElementById('firstName').value,
+          middleName: document.getElementById('middleName').value || undefined,
+          lastName: document.getElementById('lastName').value,
+          password: document.getElementById('password').value,
+          userType: 'customer' // sets default user type to customer
+        };
+
+        const result = await callApi('', 'POST', user); //  makes API call to create user 
+        alert(`User created: ${result.email}`); // alerts success message
+        document.getElementById('createForm').reset(); // resets the form after successful creation
+        loadUsers();    // reloads the list of users
+      } catch (error) {
+        errorElement.textContent = error.message; // displays error message if API call fails
+      }
+    });
+
+    // Update User
+    document.getElementById('updateForm').addEventListener('submit', async (e) => {
+      e.preventDefault();   // prevents form from refreshing the page
+      const errorElement = document.getElementById('updateError');
+      errorElement.textContent = '';    // clears any previous error message
+      
+      try {
+        const email = document.getElementById('updateEmail').value;
+        if (!email) {
+          throw new Error('Email is required'); // throws error if email is not provided
+        }
+
+        const updates = {}; // object to hold updates
+        const firstName = document.getElementById('newFirstName').value;    
+        const middleName = document.getElementById('newMiddleName').value;  
+        const lastName = document.getElementById('newLastName').value;      
+
+        if (firstName) updates.firstName = firstName;   // adds first name update if provided
+        if (middleName) updates.middleName = middleName;// adds middle name update if provided
+        if (lastName) updates.lastName = lastName;      // adds last name update if provided
+
+        if (Object.keys(updates).length === 0) {    // throws error if no fields were changed
+          throw new Error('No fields to update');
+        }
+
+        const result = await callApi(`/${encodeURIComponent(email)}`, 'PUT', updates);  // makes API call to update user
+        alert(`User updated: ${result.email}`); // alerts success message
+        document.getElementById('updateForm').reset();  // resets the form after successful update
+        loadUsers();    // reloads the list of users
+      } catch (error) {
+        errorElement.textContent = error.message; // displays error message if API call fails
+      }
+    });
+
+    // Delete User
+    document.getElementById('deleteForm').addEventListener('submit', async (e) => {
+      e.preventDefault();   // prevents form from refreshing the page
+      const errorElement = document.getElementById('deleteError');
+      errorElement.textContent = '';    // clears any previous error message
+      
+      try {
+        const email = document.getElementById('deleteEmail').value;
+        if (!email) {
+          throw new Error('Email is required'); // throws error if email is not provided
+        }
+
+        const result = await callApi(`/${encodeURIComponent(email)}`, 'DELETE'); // makes API call to delete user
+        alert(`User deleted: ${result.email}`);     // alerts success message
+        document.getElementById('deleteForm').reset();  // resets the form after successful deletion
+        loadUsers();    // reloads the list of users
+      } catch (error) {
+        errorElement.textContent = error.message;   // displays error message if API call fails
+      }
+    });
+
+    // Load and display users
+    async function loadUsers() {
+      try {
+        const users = await callApi('', 'GET'); // fetches list of users from the API
+        const tbody = document.querySelector('#userTable tbody');
+        // populates the table with user data
+        tbody.innerHTML = users.map(user => `   
+          <tr>
+            <td>${user.email}</td>
+            <td>${user.firstName}</td>
+            <td>${user.middleName || ''}</td>
+            <td>${user.lastName}</td>
+          </tr>
+        `).join('');
+      } catch (error) {
+        console.error('Error loading users:', error);   // logs error if loading users fails
+      }
+    }
+
+    // Refresh button
+    document.getElementById('refreshUsers').addEventListener('click', loadUsers);
+
+    // Initial load
+    loadUsers();
+  </script>
+</body>
+</html>

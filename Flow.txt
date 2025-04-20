@@ -1,0 +1,11 @@
+Flow of creating a User/Product in the actual web server
+1) The server parses incoming JSON and URL-encoded data using middleware [express.json() and express.urlencoded()].
+2) The user enters data in the form, and upon submission, the JavaScript collects the data and sends it in the request body. 
+3) The JavaScript function uses callApi to send a POST request to the appropriate route on the server, with the form data in the request body.
+4) The server receives the request at the correct route (/users or /products), and the data is available in req.body.
+5) The server processes the data and saves it to the database.
+
+Flow of creating a User/Product using the request.js file
+1) The express sever starts with the route '/' and the ability to parse json and urlencoded data(https) to js. 
+2) We prepare the data we want to insert for testing (currently a js object).
+3) We manually post to needle on the directed url for their specific collection locations while parsing them into json objects by json:true.
