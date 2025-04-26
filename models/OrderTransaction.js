@@ -1,4 +1,4 @@
-import mongoose from "../mongoose.js";
+import mongoose from "../config/mongoose.js";
 
 const orderTransactionSchema = new mongoose.Schema({
   transactionID: { type: String, required: true, unique: true },

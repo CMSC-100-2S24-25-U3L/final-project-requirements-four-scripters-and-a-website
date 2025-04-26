@@ -1,4 +1,4 @@
-import mongoose from "../mongoose.js";
+import mongoose from "../config/mongoose.js";
 
 const productSchema = new mongoose.Schema({
   productID: { type: String, required: true, unique: true },

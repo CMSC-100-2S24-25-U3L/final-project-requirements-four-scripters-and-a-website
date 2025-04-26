@@ -1,0 +1,1 @@
+// Public auth routes (routes like /login, /register) [CLARENCE]

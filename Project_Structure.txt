@@ -1,0 +1,42 @@
+Detailed Structure of the web server app. 
+
+farm-to-table/
+├── config/
+│   ├── mongoose.js       # Manages MongoDB connection using Mongoose
+│   └── passport.js      # Configures login strategies
+│
+├── controllers/
+│   ├── authController.js # Handles user login/logout/registration
+│   ├── adminController.js # DA admin actions (manage products/users)
+│   ├── controller.js     # [Milestone 1] existing CRUD operations
+│   └── shopController.js # Handles customer cart/orders
+│
+├── frontend/            # UI files (CSS/HTML/JS)
+│   ├── admin/
+│   │   └── admin.css    # Styles for DA dashboard
+│   └── shop/
+│       └── shop.css     # Styles for customer pages
+│
+├── middleware/
+│   ├── auth.js          # Checks "Is user logged in?" ()
+│   └── roleCheck.js     # Verifies "Is user an admin?"
+│
+├── models/
+│   ├── OrderTransactions.js # Tracks order status, items, timestamps
+│   ├── Product.js       # Defines product schema (name/type/price/stock)
+│   └── User.js          # Stores user data (email/password/role)
+│
+├── routes/
+│   ├── adminRoutes.js   # DA routes (/admin/products, /admin/reports)
+│   ├── shopRoutes.js    # Customer routes (/cart, /orders)
+│   ├── router.js        # [Milestone 1] existing routes
+│   └── authRoutes.js    # Public routes (/login, /register)
+│
+├── tests/
+│   ├── authTest.js      # Tests login/registration flows
+│   ├── ordersTest.js    # Tests order creation/updates
+│   └── request.js      # Helper for API testing
+│
+├── server.js           # Entry: starts server, connects DB, mounts routes
+├── .env                # Database link (do not share with non group members)
+└── README.md           # Project setup instructions
