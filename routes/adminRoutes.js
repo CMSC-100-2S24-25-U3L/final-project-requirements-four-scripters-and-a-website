@@ -1,1 +1,0 @@
-// Protected routes for DA admin (routes like /admin/products) [CHRISTIAN]

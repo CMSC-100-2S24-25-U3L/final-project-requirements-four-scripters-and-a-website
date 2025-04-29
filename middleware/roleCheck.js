@@ -1,1 +1,0 @@
-// Verifies if a user has admin privileges [CHRISTIAN]

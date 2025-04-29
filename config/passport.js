@@ -1,1 +1,0 @@
-// Configures authentication strategies for user login [CLARENCE]

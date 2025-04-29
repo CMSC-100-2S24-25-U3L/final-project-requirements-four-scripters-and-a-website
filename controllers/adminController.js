@@ -1,1 +1,0 @@
-// Handles user registration, login, logout, and session management [MARC]

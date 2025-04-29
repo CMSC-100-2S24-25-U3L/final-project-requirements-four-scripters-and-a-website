@@ -1,9 +1,35 @@
 Flow of creating a User/Product in the actual web server
-1) The server parses incoming JSON and URL-encoded data using middleware [express.json() and express.urlencoded()].
-2) The user enters data in the form, and upon submission, the JavaScript collects the data and sends it in the request body. 
-3) The JavaScript function uses callApi to send a POST request to the appropriate route on the server, with the form data in the request body.
-4) The server receives the request at the correct route (/users or /products), and the data is available in req.body.
-5) The server processes the data and saves it to the database.
+1) React renders the form with input fields for user/product data. State is used to track form inputs.
+2) User enters data into the form, and as they type, onChange handlers update the corresponding React state (form.email, form.firstName, etc.). 
+3) Upon form submission, the handleCreate function (in React) is triggered. It sends a POST request using fetch() (or axios) to the appropriate server route (/users or /products), passing the current state as JSON in the request body.
+4) Express server receives the request:
+- It parses incoming JSON using express.json() middleware.
+- The data is accessible via req.body.
+
+5) Server processes the data:
+- It validates the data using your Mongoose model (e.g., checking required, enum, etc.).
+- If valid, the data is saved to MongoDB.
+- If invalid (e.g., missing required field, wrong userType), Mongoose throws an error, and the server sends back a 400 or 500 error.
+
+6) React receives the response:
+- If the request succeeds, it can clear the form and refresh the user/product list.
+- If it fails, it sets an error state to display the error message in the UI.
+
+Example:
+run: 
+    node config/server.js
+(in another terminal) 
+run: 
+    cd frontend
+    cd client
+    npm run dev
+
+1) tatakbo lang talaga yung App.jsx na may laman na UserManagement.jsx
+2) after mag input ni user sa UserManagement.jsx, mapupunta lahat ng data kay fetch().
+3) magsesend si fetch() ng POST request sa http://localhost:3000/users (yung router.post('/users', saveUser) sa router.js) na naka JSON format
+4) makukuha ni saveUser (nasa controller.js na) yung data tapos ivavalidate niya yun sa backend 
+5) if walang error, save na natin sa database at mag aalert na success tapos ay ma ce-clear yung forms
+
 
 Flow of creating a User/Product using the request.js file
 1) The express sever starts with the route '/' and the ability to parse json and urlencoded data(https) to js. 

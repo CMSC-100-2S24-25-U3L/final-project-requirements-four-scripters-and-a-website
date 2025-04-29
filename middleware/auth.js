@@ -1,1 +1,0 @@
-// Checks if a user is logged in [CHRISTIAN]

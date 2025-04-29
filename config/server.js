@@ -1,5 +1,5 @@
 import express from "express";            // enables to use express servers
-import router from "./routes/router.js";  // file containing all the API routes
+import router from "../routes/router.js";  // file containing all the API routes
 import cors from 'cors';
 
 const app = express();    // creates an instance of an Express application
