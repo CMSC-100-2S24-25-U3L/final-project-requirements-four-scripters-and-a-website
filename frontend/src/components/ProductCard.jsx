@@ -6,7 +6,8 @@ export default function ProductCard({ product }) {
       </div>
       <div className="product-info">
         <h3 className="product-name">{product.productName}</h3>
-        <p className="product-price">{product.productPrice}</p>
+        <p className="product-price">{"₱"+ product.productPrice}</p>
+        <p className="product-qty">{"Remaning: " + product.productQuantity}</p>
         <p className="product-description">{product.productDescription}</p>
         <button className="add-to-cart-btn">ADD TO CART</button>
       </div>

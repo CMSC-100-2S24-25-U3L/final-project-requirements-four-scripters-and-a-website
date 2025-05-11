@@ -9,7 +9,15 @@ export default function HomePage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const categories = ['ALL PRODUCTS', 'VEGETABLES', 'FRUITS', 'DAIRY', 'GRAINS', 'MEAT'];
+  const categories = ['ALL PRODUCTS', 'GRAINS', 'FRUITS', 'VEGETABLES', 'DAIRY', 'MEAT'];
+
+  const categoryMap = {
+    GRAINS: 1,
+    FRUITS: 2,
+    VEGETABLES: 3,
+    DAIRY: 4,
+    MEAT: 5,
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -29,6 +37,14 @@ export default function HomePage() {
 
   if (loading) return <div>Loading products...</div>;
 
+  const filteredProducts =
+    activeCategory === 'ALL PRODUCTS'
+      ? products
+      : products.filter(
+          (product) => product.productType === categoryMap[activeCategory]
+        );
+
+
   return (
     <div className="harvest-container">
       <Header />
@@ -38,9 +54,8 @@ export default function HomePage() {
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}
       />
-      <FeaturedSection
-        products={products}
-        activeCategory={activeCategory}
+      <FeaturedSection 
+        products={filteredProducts} 
       />
     </div>
 
