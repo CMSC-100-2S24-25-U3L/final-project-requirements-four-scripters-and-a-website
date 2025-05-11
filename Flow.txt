@@ -16,12 +16,12 @@ Flow of creating a User/Product in the actual web server
 - If it fails, it sets an error state to display the error message in the UI.
 
 Example:
-run: 
-    node config/server.js
-(in another terminal) 
-run: 
+    new terminal:
+    cd backend
+    node server.js
+
+    new terminal:
     cd frontend
-    cd client
     npm run dev
 
 1) tatakbo lang talaga yung App.jsx na may laman na UserManagement.jsx

@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+.sign-in-screen {
+    background-image: url(../assets/bg-1.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box {
+    background-color: rgb(248, 249, 250);
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 963px;
+    height: 597px;
+    border-radius: 25px;
+    font-family: 'Open Sans';
+}
+
+.image {
+    width:438px;
+    height: 562px;
+}
+
+.logo {
+    width: 286px;
+}
+
+.text-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+}
+
+.log-in {
+    display: flex;
+    flex-direction: column;
+}
+
+.sign-in-bg {
+    background-image: url(../assets/bg-1.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-in-box {
+    display: flex;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.12);
+    overflow: hidden;
+    width: 963px;
+    height: 597px;
+    animation: fadeIn 1s ease-in;
+}
+
+.sign-in-left {
+    flex: 1;
+    padding: 40px 32px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sign-in-logo {
+    width: 320px;
+}
+
+.sign-in-title {
+    color: rgb(76, 124, 47);
+    font-size: 30px;
+    font-weight: 900;
+    font-family: 'Open Sans';
+    text-align: left;
+    margin-left: 10px;
+    padding-left: 10px;
+    padding-right: 0;
+    margin-bottom: 0px;
+}
+
+.sign-in-tagline {
+    color: #888;
+    margin-bottom: 24px;
+    font-size: 16px;
+    font-family: 'Open Sans';
+    text-align: left;
+    margin-left: 10px;
+    padding-left: 10px;
+    padding-right: 80px;
+}
+
+.sign-in-form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-family: 'Open Sans';
+    align-items: center;
+    width: 100%;
+}
+
+.sign-in-label {
+    font-size: 15px;
+    color: #888;
+    margin-bottom: 2px;
+    margin-top: 10px;
+    letter-spacing: 1px;
+    font-family: 'Open Sans';
+    display: flex;
+    align-self: flex-start;
+    margin-left: 15px;
+}
+
+.sign-in-input {
+    padding: 12px 16px;
+    border: 2px solid #eee;
+    border-radius: 24px;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.2s;
+    margin-bottom: 4px;
+    font-family: 'Open Sans';
+    width: 400px;
+
+    align-self: center;
+}
+
+.sign-in-input:focus {
+    border: 2px solid rgb(76, 124, 47);
+    font-family: 'Open Sans';
+}
+
+.sign-in-btn {
+    margin-top: 16px;
+    padding: 12px 0;
+    border: none;
+    border-radius: 24px;
+    background: rgb(76, 124, 47);
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: 'Open Sans';
+    width: 120px;
+    align-self: flex-end;
+    margin-right: 10px;
+}
+
+.sign-in-btn:hover {
+    background: rgb(56, 104, 37);
+}
+
+.sign-in-footer {
+    margin-top: 10px;
+    color: #888;
+    font-size: 16px;
+    font-family: 'Open Sans';
+    align-self: flex-end;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.sign-up-link {
+    color: rgb(76, 124, 47);
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 4px;
+}
+
+.sign-up-link:hover {
+    text-decoration: underline;
+}
+
+.sign-in-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+    overflow: hidden;
+}
+
+.sign-in-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+}
+
+@media (max-width: 700px) {
+    .sign-in-box {
+        flex-direction: column;
+        max-width: 95vw;
+    }
+    .sign-in-right {
+        border-radius: 0 0 24px 24px;
+    }
+    .sign-in-image {
+        border-radius: 0 0 24px 24px;
+        min-height: 180px;
+    }
+}
+
+.sign-up-logo-1 {
+    width: 150px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
