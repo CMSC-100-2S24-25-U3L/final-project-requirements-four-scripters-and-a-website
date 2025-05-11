@@ -3,11 +3,13 @@ import Header from "../components/Header";
 import HeroBanner from '../components/HeroBanner';
 import CategoryNav from '../components/CategoryNav';
 import FeaturedSection from '../components/FeaturedSection';
+import { useCart } from '../context/CartContext';
 
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState('ALL PRODUCTS');
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { addToCart } = useCart();
 
   const categories = ['ALL PRODUCTS', 'GRAINS', 'FRUITS', 'VEGETABLES', 'DAIRY', 'MEAT'];
 
@@ -45,6 +47,11 @@ export default function HomePage() {
         );
 
 
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+  };
+
   return (
     <div className="harvest-container">
       <Header />
@@ -54,9 +61,13 @@ export default function HomePage() {
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}
       />
-      <FeaturedSection 
-        products={filteredProducts} 
-      />
+      <div className="products-container">
+        <FeaturedSection 
+          products={filteredProducts}
+          handleAddToCart={handleAddToCart}
+        />
+      </div>
+
     </div>
 
   );
