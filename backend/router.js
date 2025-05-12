@@ -1,19 +1,33 @@
 import express from "express";
 // import all controller functions from the controller file
+
+// auth controller
+import { signUpUser, signInUser } from "./controllers/authController.js";
+
+// user controller
 import {
   saveUser,
   getUser,
   getAllUsers,
   updateUser,
   removeUser,
+} from "./controllers/userController.js" // import controller functions
+
+// product controller
+import {
   saveProduct,
   getProduct,
   getAllProducts,
   updateProduct,
   removeProduct,
+} from "./controllers/productController.js" // import controller functions
+
+// orderTransaction controller
+import {
   saveOrderTransaction,
   getOrderTransaction,
-} from "./controllers/controller.js" // import controller functions
+} from "./controllers/orderTransactionController.js" // import controller functions
+
 
 // create a new router instance to handle routes
 const router = express.Router();  // creates a new instance of router to define the api routes
@@ -23,6 +37,10 @@ router.get('/', (req, res) => {
   // send welcome message for the root path
   res.send('Welcome to the API!');  // welcome screen for the '/' path
 });
+
+// auth routes
+router.post('/auth/signup', signUpUser);   // sign-up route
+router.post('/auth/signin', signInUser);   // sign-in route
 
 // user routes
 router.post('/users', saveUser); // create new user

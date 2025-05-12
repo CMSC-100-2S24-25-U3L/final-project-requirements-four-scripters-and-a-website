@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';    // useEffect for 'using' certain code given a condition
                                                 // useState for holding values like forms
-
+ 
 // define the base url for all api requests (in the server running on localhost 3000)
 const API_BASE = 'http://localhost:3000/users'; 
 
