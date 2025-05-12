@@ -1,62 +1,93 @@
-import '../css/sign-in-screen.css';
+import '../css/sign-up-screen.css';
 import Image from '../assets/sign-up-img.jpg';
 import Logo from '../assets/harvest-logo-colored.png';
 import React, { useState } from 'react';
+import { useNavigate} from 'react-router-dom';
 
-function SignUpScreen() {
-    const [fname, setFname] = useState('');
-    const [midname, setMidname] = useState('');
-    const [lastname, setLastname] = useState('');
+function SignUpScreen1() {
+    const [email, setEmail] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [middleName, setMiddleName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        
+        // basic validation
+        if (!email || !firstName || !lastName) {
+            setError('Please fill in all required fields');
+            return;
+        }
+
+        // store in session storage and proceed to next step
+        sessionStorage.setItem('signupData', JSON.stringify({
+            email,
+            firstName,
+            middleName,
+            lastName
+        }));
+
+        navigate('/sign-up-screen-2');
     };
     
     return (
-        <div className="sign-in-bg">
-            <div className="sign-in-box">
-                <div className="sign-in-left">
+        <div className="sign-up-bg">
+            <div className="sign-up-box">
+                <div className="sign-up-left">
+                    <img src={Logo} className="sign-up-logo" alt="Harvest Logo" />
                     <div className="text-content">
-                        <h1 className="sign-in-title">Sign up</h1>
-                        <p className="sign-in-tagline">Pakisagutan ang mga detalye sa ilalim:</p>
-                        <form className="sign-in-form" onSubmit={handleSubmit}>
-                            <label htmlFor="fname" className="sign-in-label">FIRST NAME</label>
+                        <h1 className="sign-up-title">Sign Up - Step 1</h1>
+                        <p className="sign-up-tagline">Mabuhay Ka-Harvest! Gumawa ng Account dito:</p>
+                        {error && <p className="error-message">{error}</p>}
+                        <form className="sign-up-form" onSubmit={handleSubmit}>
+                            <label htmlFor="email" className="sign-up-label">EMAIL*</label>
                             <input
-                                type="text"
-                                id="fname"
-                                className="sign-in-input"
-                                value={fname}
+                                type="email"
+                                id="email"
+                                className="sign-up-input"
+                                value={email}
                                 onChange={e => setEmail(e.target.value)}
                                 required
                             />
-                            <label htmlFor="mid-name" className="sign-in-label">MIDDLE NAME</label>
+                            <label htmlFor="firstName" className="sign-up-label">FIRST NAME*</label>
                             <input
                                 type="text"
-                                id="mid-name"
-                                className="sign-in-input"
-                                value={midname}
-                                onChange={e => setMidname(e.target.value)}
-                            />
-                            <label htmlFor="last-name" className="sign-in-label">LAST NAME</label>
-                            <input
-                                type="text"
-                                id="last-name"
-                                className="sign-in-input"
-                                value={lastname}
-                                onChange={e => setLastname(e.target.value)}
+                                id="firstName"
+                                className="sign-up-input"
+                                value={firstName}
+                                onChange={e => setFirstName(e.target.value)}
                                 required
                             />
-                            <button type="submit" className="sign-in-btn" onClick={() => {}}>NEXT</button>
+                            <label htmlFor="middleName" className="sign-up-label">MIDDLE NAME</label>
+                            <input
+                                type="text"
+                                id="middleName"
+                                className="sign-up-input"
+                                value={middleName}
+                                onChange={e => setMiddleName(e.target.value)}
+                            />
+                            <label htmlFor="lastName" className="sign-up-label">LAST NAME*</label>
+                            <input
+                                type="text"
+                                id="lastName"
+                                className="sign-up-input"
+                                value={lastName}
+                                onChange={e => setLastName(e.target.value)}
+                                required
+                            />
+                            <button type="submit" className="sign-up-btn">NEXT</button>
                         </form>
                     </div>
-                    <img src={Logo} className="sign-up-logo-1" alt="Harvest Logo" />
                 </div>
-                <div className="sign-in-right">
-                    <img src={Image} className="sign-in-image" alt="Sign Up Visual" />
+                <div className="sign-up-right">
+                    <img src={Image} className="sign-up-image" alt="Sign Up Visual" />
                 </div>
             </div>
         </div>
     );
 }
 
-export default SignUpScreen;
+export default SignUpScreen1;

@@ -7,11 +7,44 @@ import { useNavigate} from 'react-router-dom';
 function SignInScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(''); // error message storage
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-    };
+        setError(''); // clear the error message
+        
+        try {   // api call
+            const response = await fetch('http://localhost:3000/auth/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password })
+
+            });
+
+            // the user
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Sign in failed');
+            }
+            // if no error, navigate to the appropriate screen
+            if (data.userType === 'customer') {
+                navigate('/home-page');
+            } else if (data.userType === 'merchant') {
+                navigate('/admin-dashboard');
+            } else {
+                // Default fallback
+                navigate('/home-page');
+            }
+
+        } catch (err) {
+            setError(err.message)
+        }
+        // navigate('/home-page')
+    }; 
     
     return (
         <div className="sign-in-bg">

@@ -2,14 +2,62 @@ import '../css/sign-in-screen.css';
 import Image from '../assets/sign-up-img.jpg';
 import Logo from '../assets/harvest-logo-colored.png';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function SignUpScreen() {
-    const [email, setEmail] = useState('');
+function SignUpScreen2() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+        
+        // get data from first step
+        const signupData = JSON.parse(sessionStorage.getItem('signupData'));
+        if (!signupData) {
+            navigate('/sign-up-screen-1');
+            return;
+        }
+
+        // validation
+        if (password !== confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+
+        if (password.length < 8) {
+            setError('Password must be at least 8 characters');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:3000/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...signupData,
+                    password
+                }),
+            });
+
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.error || 'Sign up failed');
+            }
+
+            // clear signup data
+            sessionStorage.removeItem('signupData');
+            
+            // redirect to home or success page
+            navigate('/home-page');
+        } catch (err) {
+            setError(err.message);
+        }
     };
     
     return (
@@ -20,15 +68,6 @@ function SignUpScreen() {
                         <h1 className="sign-in-title">Sign up</h1>
                         <p className="sign-in-tagline">Mabuhay Ka-Harvest! Gumawa ng Account dito:</p>
                         <form className="sign-in-form" onSubmit={handleSubmit}>
-                            <label htmlFor="email" className="sign-in-label">EMAIL</label>
-                            <input
-                                type="email"
-                                id="email"
-                                className="sign-in-input"
-                                value={email}
-                                onChange={e => setEmail(e.target.value)}
-                                required
-                            />
                             <label htmlFor="password" className="sign-in-label">PASSWORD</label>
                             <input
                                 type="password"
@@ -60,4 +99,4 @@ function SignUpScreen() {
     );
 }
 
-export default SignUpScreen;
+export default SignUpScreen2;
