@@ -3,11 +3,14 @@ import Header from "../components/Header";
 import HeroBanner from '../components/HeroBanner';
 import CategoryNav from '../components/CategoryNav';
 import FeaturedSection from '../components/FeaturedSection';
+import SearchBar from '../components/SearchBar'; 
 import { useCart } from '../context/CartContext';
 
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState('ALL PRODUCTS');
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
 
@@ -27,6 +30,7 @@ export default function HomePage() {
         const response = await fetch("http://localhost:3000/products");
         const data = await response.json();
         setProducts(data);
+        setFilteredProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -37,16 +41,25 @@ export default function HomePage() {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    let filtered = products;
+
+    if (activeCategory !== 'ALL PRODUCTS') {
+      filtered = filtered.filter(
+        (product) => product.productType === categoryMap[activeCategory]
+      );
+    }
+
+    if (searchTerm.trim() !== '') {
+      filtered = filtered.filter((product) =>
+        product.productName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    setFilteredProducts(filtered);
+  }, [activeCategory, searchTerm, products]);
+
   if (loading) return <div>Loading products...</div>;
-
-  const filteredProducts =
-    activeCategory === 'ALL PRODUCTS'
-      ? products
-      : products.filter(
-          (product) => product.productType === categoryMap[activeCategory]
-        );
-
-
 
   const handleAddToCart = (product) => {
     addToCart(product);
@@ -61,7 +74,12 @@ export default function HomePage() {
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}
       />
+
       <div className="products-container">
+        <SearchBar 
+          searchTerm={searchTerm} 
+          setSearchTerm={setSearchTerm} 
+        />
         <FeaturedSection 
           products={filteredProducts}
           handleAddToCart={handleAddToCart}
