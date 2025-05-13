@@ -163,3 +163,28 @@
     from { opacity: 0; }
     to   { opacity: 1; }
 }
+
+.error-popup-content {
+    background-color: #fff;
+    padding: 50px 60px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    text-align: center;
+    width: 300px;
+    font-size: 1.2rem;
+}
+
+.error-popup-content p {
+    margin-bottom: 10px;
+    color: red;
+    font-weight: bold;
+}
+
+.error-popup-content button {
+    padding: 6px 14px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

@@ -7,28 +7,31 @@ import { useNavigate } from 'react-router-dom';
 function SignUpScreen2() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
+    const [error, setError] = useState(''); // error message storage
+    const [showError, setShowError] = useState(false); // To control error visibility
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
-        
-        // get data from first step
+        setError(''); // Clear any previous error message
+
+        // Get data from first step
         const signupData = JSON.parse(sessionStorage.getItem('signupData'));
         if (!signupData) {
             navigate('/sign-up-screen-1');
             return;
         }
 
-        // validation
+        // Password validation
         if (password !== confirmPassword) {
             setError('Passwords do not match');
+            setShowError(true); // Show error notification
             return;
         }
 
         if (password.length < 8) {
             setError('Password must be at least 8 characters');
+            setShowError(true); // Show error notification
             return;
         }
 
@@ -45,21 +48,26 @@ function SignUpScreen2() {
             });
 
             const data = await response.json();
-            
+
             if (!response.ok) {
                 throw new Error(data.error || 'Sign up failed');
             }
 
-            // clear signup data
+            // Clear signup data
             sessionStorage.removeItem('signupData');
-            
-            // redirect to home or success page
+
+            // Redirect to home or success page
             navigate('/home-page');
         } catch (err) {
             setError(err.message);
+            setShowError(true); // Show error notification for server errors
         }
     };
-    
+
+    const closeErrorPopup = () => {
+        setShowError(false); // Close the error notification
+    };
+
     return (
         <div className="sign-in-bg">
             <div className="sign-in-box">
@@ -95,6 +103,15 @@ function SignUpScreen2() {
                     <img src={Image} className="sign-in-image" alt="Sign Up Visual" />
                 </div>
             </div>
+            
+            {showError && (
+                <div className="error-popup">
+                    <div className="error-popup-content">
+                        <p>{error}</p>
+                        <button onClick={closeErrorPopup}>Close</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

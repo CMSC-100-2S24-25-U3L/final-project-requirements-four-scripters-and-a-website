@@ -85,6 +85,15 @@ function SignInScreen() {
                     <img src={Image} className="sign-in-image" alt="Sign In Visual" />
                 </div>
             </div>
+
+            {error && (
+                <div className="error-popup">
+                    <div className="error-popup-content">
+                        <p>{error}</p>
+                        <button onClick={() => setError('')}>Close</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

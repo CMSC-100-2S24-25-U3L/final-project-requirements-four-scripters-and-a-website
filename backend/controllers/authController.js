@@ -80,15 +80,15 @@ export const signInUser = async (req, res) => {
     // find user by email
     const user = await User.findOne({ email: proccesedEmail });
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(400).json({ error: 'Invalid credentials' });
     }
 
     // compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ error: 'Invalid credetials' });
+      return res.status(400).json({ error: 'Invalid credetials' });
     }
-
+    
     // exclude password from response
     const { password: _, ...safeUser } = user.toObject();
     res.json(safeUser);
