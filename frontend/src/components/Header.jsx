@@ -11,14 +11,14 @@ export default function Header() {
         </h1>
       </div>
       <div className="nav-links">
-        <Link to="/" className="nav-link text-orange-500">
+        <Link to="/home-page" className="nav-link text-orange-500">
           <span>Market</span>
         </Link>
         <Link to="/cart" className="nav-link">
           <ShoppingCart size={18} />
           <span>Cart</span>
         </Link>
-        <Link to="/profile" className="nav-link"> {/* Assuming '/profile' as a placeholder for profile route */}
+        <Link to="/profile" className="nav-link"> 
           <User size={18} />
           <span>View Profile</span>
         </Link>

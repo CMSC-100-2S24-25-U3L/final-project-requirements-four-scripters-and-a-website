@@ -53,7 +53,10 @@ function SignUpScreen2() {
                 throw new Error(data.error || 'Sign up failed');
             }
 
-            // Clear signup data
+            localStorage.setItem('userEmail', data.email);
+            localStorage.setItem('userName', `${data.firstName} ${data.lastName}`);
+
+            // Clear signup session data
             sessionStorage.removeItem('signupData');
 
             // Redirect to home or success page
