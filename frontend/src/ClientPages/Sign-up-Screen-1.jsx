@@ -29,7 +29,6 @@ function SignUpScreen1() {
             middleName,
             lastName
         }));
-
         navigate('/sign-up-screen-2');
     };
     

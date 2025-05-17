@@ -3,48 +3,46 @@ import Image from '../assets/sign-up-img.jpg';
 import Logo from '../assets/harvest-logo-colored.png';
 import React, { useState } from 'react';
 import { useNavigate} from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; // import the auth context
 
 function SignInScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(''); // error message storage
+    const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { login } = useAuth();
+
+    console.log('[SignInScreen] Rendering with state:', { email, error });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(''); // clear the error message
+        setError('');
         
-        try {   // api call
-            const response = await fetch('http://localhost:3000/auth/signin', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password })
-
-            });
-
-            // the user
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Sign in failed');
-            }
-            // if no error, navigate to the appropriate screen
-            if (data.userType === 'customer') {
-                navigate('/home-page');
-            } else if (data.userType === 'merchant') {
-                navigate('/admin-dashboard');
-            } else {
-                // Default fallback
-                navigate('/home-page');
-            }
+        try {
+            console.log('[SignInScreen] Attempting login');
+            // call the login function from AuthContext
+            const user = await login(email, password);
+            console.log('[SignInScreen] Login successful, user:', user);
+            
+            // navigate based on user type
+            const redirectPath = user.userType === 'merchant' 
+            ? '/admin-dashboard' 
+            : '/home-page';
+            
+            console.log('[SignInScreen] Navigating to:', redirectPath);
+            navigate(redirectPath);
 
         } catch (err) {
-            setError(err.message)
+            console.error('[SignInScreen] Login error:', {
+            message: err.message,
+            details: err.details,
+            original: err.originalError
+            });
+            
+            // display the most specific error message available
+            setError(err.details || err.message || 'Login failed. Please try again.');
         }
-        // navigate('/home-page')
-    }; 
+    };
     
     return (
         <div className="sign-in-bg">
