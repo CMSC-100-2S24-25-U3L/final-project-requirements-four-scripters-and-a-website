@@ -83,19 +83,12 @@ export const signInUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-<<<<<<< Updated upstream
-    // find user by email
-    const user = await User.findOne({ email: proccesedEmail });
-    if (!user) {
-      return res.status(400).json({ error: 'Invalid credentials' });
-=======
     // First validate required fields
     if (!email || !password) {
       return res.status(400).json({ 
         error: 'Validation Error',
         message: 'Email and password are required' 
       });
->>>>>>> Stashed changes
     }
 
     // Process email
@@ -120,14 +113,6 @@ export const signInUser = async (req, res) => {
     // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-<<<<<<< Updated upstream
-      return res.status(400).json({ error: 'Invalid credetials' });
-    }
-    
-    // exclude password from response
-    const { password: _, ...safeUser } = user.toObject();
-    res.json(safeUser);
-=======
       return res.status(401).json({ 
         error: 'Authentication Error',
         message: 'Invalid credentials' 
@@ -145,7 +130,6 @@ export const signInUser = async (req, res) => {
       token 
     });
 
->>>>>>> Stashed changes
   } catch (error) {
     console.error('SignIn Error:', error);
     res.status(500).json({ 
