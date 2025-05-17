@@ -2,7 +2,7 @@ import express from "express";
 // import all controller functions from the controller file
 
 // auth controller
-import { signUpUser, signInUser } from "./controllers/authController.js";
+import { signUpUser, signInUser, authenticateUser } from "./controllers/authController.js";
 
 // user controller
 import {
@@ -11,6 +11,7 @@ import {
   getAllUsers,
   updateUser,
   removeUser,
+  getCurrentUser
 } from "./controllers/userController.js" // import controller functions
 
 // product controller
@@ -44,24 +45,25 @@ router.get('/', (req, res) => {
 router.post('/auth/signup', signUpUser);   // sign-up route
 router.post('/auth/signin', signInUser);   // sign-in route
 
-// user routes
-router.post('/users', saveUser); // create new user
-router.get('/users', getAllUsers); // get all users
-router.get('/users/:email', getUser); // get user by email
-router.put('/users/:email', updateUser); // update user by email
-router.delete('/users/:email', removeUser); // delete user by email
+// user routes (with protecion using tokens [authenticateUser])
+router.post('/users', authenticateUser, saveUser); // create new user
+router.get('/users', authenticateUser, getAllUsers); // get all users
+router.get('/users/:email', authenticateUser, getUser); // get user by email
+router.put('/users/:email', authenticateUser, updateUser); // update user by email
+router.delete('/users/:email', authenticateUser, removeUser); // delete user by email
+router.get('/users/me', authenticateUser, getCurrentUser);
 
 // product routes
-router.post('/products', saveProduct); // create new product
+router.post('/products', authenticateUser, saveProduct); // create new product
 router.get('/products', getAllProducts); // get all product 
 router.get('/products/:productID', getProduct); // get product by id
-router.put('/products/:productID', updateProduct); // update product by id
-router.delete('/products/:productID', removeProduct); // delete product by id
+router.put('/products/:productID', authenticateUser, updateProduct); // update product by id
+router.delete('/products/:productID', authenticateUser, removeProduct); // delete product by id
 
 // order routes
-router.post('/orders', saveOrderTransaction); // create new order
+router.post('/orders', authenticateUser, saveOrderTransaction); // create new order
+router.get('/orders/:transactionID', authenticateUser, getOrderTransaction); // get order by transaction id
 router.post('/orders/with-products', getOrdersWithProducts);
-router.get('/orders/:transactionID', getOrderTransaction); // get order by transaction id
 router.get('/orders', getOrdersByUser); // get order of a user
 
 // export the router to be used in the main server file

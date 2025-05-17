@@ -3,6 +3,7 @@ import Image from '../assets/sign-up-img.jpg';
 import Logo from '../assets/harvest-logo-colored.png';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function SignUpScreen2() {
     const [password, setPassword] = useState('');
@@ -10,42 +11,66 @@ function SignUpScreen2() {
     const [error, setError] = useState(''); // error message storage
     const [showError, setShowError] = useState(false); // To control error visibility
     const navigate = useNavigate();
+    const { signup } = useAuth();
+
+    console.log('[SignUpScreen2] Rendering with state:', { password, confirmPassword, error });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(''); // Clear any previous error message
-
-        // Get data from first step
+        console.log('[SignUpScreen2] Form submitted');
+        setError('');
+        
+        // get form data stored from the previous step
         const signupData = JSON.parse(sessionStorage.getItem('signupData'));
+        console.log('[SignUpScreen2] Retrieved signupData from sessionStorage:', signupData);
+        
+        // if data is missing, send user back to step 1
         if (!signupData) {
+            console.log('[SignUpScreen2] No signupData found - redirecting to step 1');
             navigate('/sign-up-screen-1');
             return;
         }
 
-        // Password validation
+        // check if passwords match and are long enough
         if (password !== confirmPassword) {
+            console.log('[SignUpScreen2] Passwords do not match');
             setError('Passwords do not match');
             setShowError(true); // Show error notification
             return;
         }
 
         if (password.length < 8) {
+            console.log('[SignUpScreen2] Password too short');
             setError('Password must be at least 8 characters');
             setShowError(true); // Show error notification
             return;
         }
 
         try {
-            const response = await fetch('http://localhost:3000/auth/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ...signupData,
-                    password
-                }),
-            });
+
+            // merge stored data with new password
+            const userData = {
+                ...signupData,
+                password
+            };
+            
+            console.log('[SignUpScreen2] Attempting signup with data:', userData);
+            
+            // call the signup function from AuthContext
+            await signup(userData);
+            
+            console.log('[SignUpScreen2] Signup successful - clearing sessionStorage');
+
+//             const response = await fetch('http://localhost:3000/auth/signup', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//                 body: JSON.stringify({
+//                     ...signupData,
+//                     password
+//                 }),
+//             });
 
             const data = await response.json();
 
@@ -58,10 +83,12 @@ function SignUpScreen2() {
 
             // Clear signup session data
             sessionStorage.removeItem('signupData');
-
-            // Redirect to home or success page
-            navigate('/home-page');
+            
+            // after signup, send user to login page
+            console.log('[SignUpScreen2] Navigating to /sign-in-screen');
+            navigate('/sign-in-screen');
         } catch (err) {
+            console.error('[SignUpScreen2] Signup error:', err);
             setError(err.message);
             setShowError(true); // Show error notification for server errors
         }

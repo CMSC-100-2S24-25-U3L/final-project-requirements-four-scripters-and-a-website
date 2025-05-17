@@ -103,6 +103,15 @@ export const getUser = async (req, res) => {
 
 };
 
+export const getCurrentUser = async (req, res) => {
+  try {
+    // the authenticateUser middleware already attached the user to req.user
+    res.json(req.user);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
 export async function getAllUsers(req, res) {
   try {
     const users = await User.find();
