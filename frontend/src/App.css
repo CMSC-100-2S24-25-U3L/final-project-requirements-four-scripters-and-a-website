@@ -756,3 +756,270 @@ html, body {
   color: #9ca3af;
   pointer-events: none;
 }
+
+
+
+/* ProfilePage */
+/* Main content area */
+.main-content {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+}
+
+/* Profile sidebar */
+.profile-sidebar {
+  width: 240px;
+  background-color: #4b7e3d;
+  border-radius: 8px;
+  color: white;
+  text-align: center;
+  padding: 24px;
+  margin-right: 16px;
+}
+
+.profile-avatar {
+  margin-bottom: 16px;
+}
+
+.avatar-placeholder {
+  width: 128px;
+  height: 128px;
+  background-color: #5c9a4c;
+  border-radius: 50%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.avatar-placeholder::after {
+  content: '';
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #3c6431;
+}
+
+.profile-name {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.profile-email {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Orders container */
+.orders-container {
+  flex: 1;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #4b7e3d;
+  margin-bottom: 16px;
+}
+
+/* Tabs navigation */
+.tabs-container {
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 16px;
+}
+
+.tab-button {
+  padding: 10px 24px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab-button.active {
+  color: #ff8c00;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #ff8c00;
+}
+
+/* Orders list */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.loading-message,
+.error-message,
+.empty-message {
+  padding: 20px;
+  text-align: center;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.error-message {
+  color: #e53935;
+}
+
+/* Order card */
+.order-card {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.order-header {
+  background-color: #4b7e3d;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-id {
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.completed {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status-badge.pending {
+  background-color: #ff9800;
+  color: white;
+}
+
+.status-badge.cancelled {
+  background-color: #f44336;
+  color: white;
+}
+
+.order-content {
+  padding: 16px;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.item-image {
+  width: 64px;
+  height: 64px;
+  background-color: #eee;
+  margin-right: 12px;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.item-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #666;
+}
+
+
+/* Order footer styling */
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+/* Cancel button styling */
+.cancel-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.cancel-button:hover {
+  background-color: #d32f2f;
+}
+
+/* Order total styling */
+.order-total {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+
+
+/* Status messages */
+.loading-message,
+.error-message,
+.empty-message {
+  padding: 40px;
+  text-align: center;
+  color: #777;
+  font-size: 16px;
+}
+
+.error-message {
+  color: #f44336;
+}
+
+  /* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
+  
+  .profile-sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 16px;
+  }
+}
+
+

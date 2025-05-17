@@ -6,7 +6,6 @@
 **/dist-ssr/
 
 # Environment files
-**/.env
 *.local
 
 # Logs
@@ -32,3 +31,4 @@ lerna-debug.log*
 # Optional OS and temp files
 Thumbs.db
 ehthumbs.db
+config.bat

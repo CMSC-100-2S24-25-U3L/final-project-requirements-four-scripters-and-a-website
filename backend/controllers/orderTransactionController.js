@@ -1,28 +1,48 @@
 
 import OrderTransaction from "../models/OrderTransaction.js";
+import Product from "../models/Product.js";
+import mongoose from "mongoose";
 
 export const saveOrderTransaction = async (req, res) => {
   try {
-    // first validate if product exists by product id
-    const product = await Product.findOne({ productID: req.body.productID });
-    if (!product) { // if there is no product
-      return res.status(404).json({ error: 'Product not found' });
-    }
-    // if there order requests more than the available products
-    if (product.productQuantity < req.body.orderQuantity) {
-      return res.status(400).json({ error: 'Insufficient product quantity' });
+    const { products, email } = req.body;
+
+    if (!Array.isArray(products) || products.length === 0) {
+      return res.status(400).json({ error: "At least one product is required" });
     }
 
-    // create order from request body
-    const order = new OrderTransaction(req.body);
+    // Validate and update each product
+    for (const item of products) {
+      if (!mongoose.Types.ObjectId.isValid(item.productID)) {
+        return res.status(400).json({ error: `Invalid productID: ${item.productID}` });
+      }
+
+      const product = await Product.findById(item.productID);
+      if (!product) {
+        return res.status(404).json({ error: `Product not found: ${item.productID}` });
+      }
+
+      if (product.productQuantity < item.quantity) {
+        return res.status(400).json({ error: `Insufficient stock for: ${product.productName}` });
+      }
+
+      // Deduct stock
+      product.productQuantity -= item.quantity;
+      await product.save();
+    }
+
+    // Save the order
+    const order = new OrderTransaction({
+      products,
+      email,
+      orderStatus: 0, // default to pending
+      dateOrdered: new Date()
+    });
+
     await order.save();
 
-    // update product quantity
-    product.productQuantity -= req.body.orderQuantity;
-    await product.save();
-
-    res.status(201).json(order);  // respond with the created(201) order
-  } catch (error) { // else respond with an error(400) message
+    res.status(201).json(order);
+  } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
@@ -78,6 +98,52 @@ export const getOrderTransaction = async (req, res) => {
     // respond with the error(404) message if we fail to find a match
     if (!transaction) return res.status(404).json({ error: 'Transaction not found '});
     res.json(transaction); // else respond with the transaction    
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// export const getOrdersByUser = async (req, res) => {
+//   try {
+//     const { email } = req.query;
+//     if (!email) return res.status(400).json({ error: 'Email query parameter is required' });
+
+//     const orders = await OrderTransaction.find({ userEmail: email }).populate('product');
+//     res.json(orders);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
+export const getOrdersByUser = async (req, res) => {
+  try {
+    const { email } = req.query;
+    if (!email) return res.status(400).json({ error: 'Email query parameter is required' });
+
+    const orders = await OrderTransaction.find({ email })  // use 'email', not 'userEmail'
+      .populate('products.productID');  // populate nested productID in products array
+
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getOrdersWithProducts = async (req, res) => {
+  try {
+    const { transactionIDs } = req.body;
+    if (!transactionIDs || !Array.isArray(transactionIDs)) {
+      return res.status(400).json({ error: 'transactionIDs array is required in the request body' });
+    }
+
+    // Assuming you can fetch order details including product info.
+    // This might require a join or populate if using MongoDB with refs.
+
+    // For example, if orders have a reference to products:
+    const orders = await OrderTransaction.find({ transactionID: { $in: transactionIDs } })
+      .populate('product'); // Adjust if you store product refs differently
+
+    res.json(orders);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
