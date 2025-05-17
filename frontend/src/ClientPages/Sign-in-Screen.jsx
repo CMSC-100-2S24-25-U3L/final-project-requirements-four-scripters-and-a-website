@@ -30,6 +30,11 @@ function SignInScreen() {
             if (!response.ok) {
                 throw new Error(data.error || 'Sign in failed');
             }
+
+            // Save the user's email and name in localStorage
+            localStorage.setItem('userEmail', data.email);
+            localStorage.setItem('userName', `${data.firstName} ${data.lastName}`);
+
             // if no error, navigate to the appropriate screen
             if (data.userType === 'customer') {
                 navigate('/home-page');
