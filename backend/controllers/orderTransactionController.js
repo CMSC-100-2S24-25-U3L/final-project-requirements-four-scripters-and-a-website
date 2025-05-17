@@ -117,11 +117,11 @@ export const getOrderTransaction = async (req, res) => {
 
 export const getOrdersByUser = async (req, res) => {
   try {
-    const { email } = req.query;
-    if (!email) return res.status(400).json({ error: 'Email query parameter is required' });
+    const email = req.user.email; // Comes from token payload (e.g., jwt.decode(token))
+    if (!email) return res.status(400).json({ error: 'User email missing in token' });
 
-    const orders = await OrderTransaction.find({ email })  // use 'email', not 'userEmail'
-      .populate('products.productID');  // populate nested productID in products array
+    const orders = await OrderTransaction.find({ email })
+      .populate('products.productID');
 
     res.json(orders);
   } catch (error) {

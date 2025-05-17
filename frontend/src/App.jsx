@@ -24,6 +24,7 @@ function App() {
             <Route path="/sign-in-screen" element={<SignInScreen />} />
             <Route path="/home-page" element={ <ProtectedRoute> <HomePage /> </ProtectedRoute> } />
             <Route path="/cart" element={ <ProtectedRoute> <CartPage /> </ProtectedRoute> } />
+            <Route path="/profile" element={ <ProtectedRoute> <ProfilePage /> </ProtectedRoute> } />
             <Route path="/sign-up-screen-1" element={<SignUpScreen1 />} />
             <Route path="/sign-up-screen-2" element={<SignUpScreen2 />} />
             <Route path="/admin-dashboard" element={ <ProtectedRoute allowedRoles={['merchant']}> <AdminDashboard /> </ProtectedRoute> } />

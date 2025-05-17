@@ -24,10 +24,15 @@ const OrderService = {
     return res.data;
   },
 
-  getOrdersByUser: async (email) => {
-    const res = await axios.get(`${BASE_URL}?email=${encodeURIComponent(email)}`);
+    getOrdersByUser: async () => {
+    const token = localStorage.getItem('token');
+    const res = await axios.get(BASE_URL, {
+        headers: {
+        Authorization: `Bearer ${token}`
+        }
+    });
     return res.data;
-  },
+    },
 
   getOrdersWithProducts: async () => {
     const res = await axios.post(`${BASE_URL}/with-products`);

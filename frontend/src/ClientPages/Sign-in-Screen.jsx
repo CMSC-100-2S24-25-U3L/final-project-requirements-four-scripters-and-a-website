@@ -17,65 +17,34 @@ function SignInScreen() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        
 
-//         try {
-//             console.log('[SignInScreen] Attempting login');
-//             // call the login function from AuthContext
-//             const user = await login(email, password);
-//             console.log('[SignInScreen] Login successful, user:', user);
-            
-//             // navigate based on user type
-//             const redirectPath = user.userType === 'merchant' 
-//             ? '/admin-dashboard' 
-//             : '/home-page';
-            
-//             console.log('[SignInScreen] Navigating to:', redirectPath);
-//             navigate(redirectPath);
+        try {
+            console.log('[SignInScreen] Attempting login');
+            const user = await login(email, password);
+            console.log('[SignInScreen] Login successful, user:', user);
 
-        try {   // api call
-            const response = await fetch('http://localhost:3000/auth/signin', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password })
+            // Save extra info if needed (not required, but fine)
+            localStorage.setItem('userEmail', user.email);
+            localStorage.setItem('userName', `${user.firstName} ${user.lastName}`);
 
-            });
+            // Navigate based on userType
+            const redirectPath = user.userType === 'merchant' 
+                ? '/admin-dashboard' 
+                : '/home-page';
 
-            // the user
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Sign in failed');
-            }
-
-            // Save the user's email and name in localStorage
-            localStorage.setItem('userEmail', data.email);
-            localStorage.setItem('userName', `${data.firstName} ${data.lastName}`);
-
-            // if no error, navigate to the appropriate screen
-            if (data.userType === 'customer') {
-                navigate('/home-page');
-            } else if (data.userType === 'merchant') {
-                navigate('/admin-dashboard');
-            } else {
-                // Default fallback
-                navigate('/home-page');
-            }
+            console.log('[SignInScreen] Navigating to:', redirectPath);
+            navigate(redirectPath);
 
         } catch (err) {
             console.error('[SignInScreen] Login error:', {
-            message: err.message,
-            details: err.details,
-            original: err.originalError
+                message: err.message,
+                details: err.details,
+                original: err.originalError
             });
-            
-            // display the most specific error message available
             setError(err.details || err.message || 'Login failed. Please try again.');
         }
     };
-    
+        
     return (
         <div className="sign-in-bg">
             <div className="sign-in-box">
