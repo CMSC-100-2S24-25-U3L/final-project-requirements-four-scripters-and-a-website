@@ -27,6 +27,8 @@ import {
 import {
   saveOrderTransaction,
   getOrderTransaction,
+  getOrdersWithProducts,
+  getOrdersByUser
 } from "./controllers/orderTransactionController.js" // import controller functions
 
 
@@ -61,6 +63,8 @@ router.delete('/products/:productID', authenticateUser, removeProduct); // delet
 // order routes
 router.post('/orders', authenticateUser, saveOrderTransaction); // create new order
 router.get('/orders/:transactionID', authenticateUser, getOrderTransaction); // get order by transaction id
+router.post('/orders/with-products', getOrdersWithProducts);
+router.get('/orders', getOrdersByUser); // get order of a user
 
 // export the router to be used in the main server file
 export default router;

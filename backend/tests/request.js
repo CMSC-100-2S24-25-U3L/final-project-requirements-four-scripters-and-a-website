@@ -98,22 +98,61 @@ const testProduct = [
   }
 ];
 
+
+const testOrders = [
+  {
+    products: [
+      { productID: "681f6bfe7659629310cac5a1", quantity: 2 }, // Fresh Milk
+      { productID: "681f6bfe7659629310cac5a3", quantity: 5 }  // Tomatoes
+    ],
+    orderStatus: 0,
+    email: "user@gmail.com",
+    dateOrdered: new Date("2025-05-15T10:00:00Z")
+  },
+  {
+    products: [
+      { productID: "681f6bff7659629310cac5a7", quantity: 1 }, // Chicken Breast
+      { productID: "681f6bff7659629310cac5a9", quantity: 3 }  // Potato
+    ],
+    orderStatus: 1,
+    email: "user@gmail.com",
+    dateOrdered: new Date("2025-05-16T12:30:00Z")
+  },
+  {
+    products: [
+      { productID: "681f6bfe7659629310cac5a5", quantity: 4 }  // Tilapia
+    ],
+    orderStatus: 2,
+    email: "user@gmail.com",
+    dateOrdered: new Date("2025-05-14T09:15:00Z")
+  }
+];
+
 // function to insert the data into the database
 const runTests = async () => {
-  try { // perform a post operation on the users collection to insert the json parsed testUser(a javascript object)
-    const userRes = await needle("post", `${BASE_URL}/users`, testUser, { json: true });
-    console.log("User created:", userRes.body); // if successful, print the created user
-  } catch (err) {
-    console.error("Error creating user:", err);
-  }
+  // try { // perform a post operation on the users collection to insert the json parsed testUser(a javascript object)
+  //   const userRes = await needle("post", `${BASE_URL}/users`, testUser, { json: true });
+  //   console.log("User created:", userRes.body); // if successful, print the created user
+  // } catch (err) {
+  //   console.error("Error creating user:", err);
+  // }
 
-  // Loop through the testProducts array and insert each product
-  for (const product of testProduct) {
+  // // Loop through the testProducts array and insert each product
+  // for (const product of testProduct) {
+  //   try {
+  //     const productRes = await needle("post", `${BASE_URL}/products`, product, { json: true });
+  //     console.log("Product created:", productRes.body);  // if successful, print the created product
+  //   } catch (err) {
+  //     console.error("Error creating product:", err);
+  //   }
+  // }
+
+  for (const order of testOrders) {
     try {
-      const productRes = await needle("post", `${BASE_URL}/products`, product, { json: true });
-      console.log("Product created:", productRes.body);  // if successful, print the created product
+      const orderRes = await needle("post", `${BASE_URL}/orders`, order, { json: true });
+      console.log("Order created:", orderRes.body);
     } catch (err) {
-      console.error("Error creating product:", err);
+      console.error("Error creating order:", err);
     }
   }
 };

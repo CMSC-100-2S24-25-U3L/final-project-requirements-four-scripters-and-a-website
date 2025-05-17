@@ -47,6 +47,7 @@ function SignUpScreen2() {
         }
 
         try {
+
             // merge stored data with new password
             const userData = {
                 ...signupData,
@@ -59,6 +60,28 @@ function SignUpScreen2() {
             await signup(userData);
             
             console.log('[SignUpScreen2] Signup successful - clearing sessionStorage');
+
+//             const response = await fetch('http://localhost:3000/auth/signup', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//                 body: JSON.stringify({
+//                     ...signupData,
+//                     password
+//                 }),
+//             });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Sign up failed');
+            }
+
+            localStorage.setItem('userEmail', data.email);
+            localStorage.setItem('userName', `${data.firstName} ${data.lastName}`);
+
+            // Clear signup session data
             sessionStorage.removeItem('signupData');
             
             // after signup, send user to login page
