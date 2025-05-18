@@ -5,6 +5,8 @@ import CategoryNav from '../components/CategoryNav';
 import FeaturedSection from '../components/FeaturedSection';
 import SearchBar from '../components/SearchBar'; 
 import { useCart } from '../context/CartContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';          
 
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState('ALL PRODUCTS');
@@ -63,6 +65,7 @@ export default function HomePage() {
 
   const handleAddToCart = (product) => {
     addToCart(product);
+    toast.success(`${product.productName} added to cart!`);
   };
 
   return (
@@ -85,7 +88,16 @@ export default function HomePage() {
           handleAddToCart={handleAddToCart}
         />
       </div>
-
+      <ToastContainer 
+        position="top-right" 
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
 
   );

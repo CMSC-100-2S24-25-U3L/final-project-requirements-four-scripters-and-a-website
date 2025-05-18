@@ -5,6 +5,9 @@ import ProfileSidebar from "../components/ProfileSidebar";
 import Tabs from "../components/Tabs";
 import OrdersList from "../components/OrderList";
 import OrderService from '../services/OrderService';
+import ConfirmationModal from "../components/ConfirmationModal";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState('ALL ORDERS');
@@ -12,6 +15,8 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { user: userProfile, loading: userLoading } = useAuth();
+  const [showModal, setShowModal] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   const tabs = ['ALL ORDERS', 'PENDING', 'COMPLETED', 'CANCELLED'];
   const statusMap = { 0: 'PENDING', 1: 'COMPLETED', 2: 'CANCELLED' };
@@ -59,20 +64,37 @@ export default function ProfilePage() {
     ? orders
     : orders.filter(order => order.status === activeTab);
 
-  const handleCancelOrder = async (orderId) => {
+
+  const confirmCancelOrder = async () => {
+    if (!selectedOrderId) return;
     try {
-      await OrderService.cancelOrder(orderId);
+      await OrderService.cancelOrder(selectedOrderId);
       setOrders(prev =>
         prev.map(order =>
-          order.id === orderId
+          order.id === selectedOrderId
             ? { ...order, status: 'CANCELLED' }
             : order
         )
       );
+      toast.success('Order cancelled successfully!')
     } catch (err) {
       console.error('Error cancelling order:', err);
-      alert('Failed to cancel order. Please try again later.');
+      toast.error('Failed to cancel order. Please try again later.');
+    } finally {
+      setShowModal(false);
+      setSelectedOrderId(null);
     }
+  };
+
+  const requestCancelOrder = (orderId) => {
+    setSelectedOrderId(orderId);
+    setShowModal(true);
+  };
+
+
+  const cancelModal = () => {
+    setShowModal(false);
+    setSelectedOrderId(null);
   };
 
   return (
@@ -88,10 +110,31 @@ export default function ProfilePage() {
             loading={loading}
             error={error}
             activeTab={activeTab}
-            onCancel={handleCancelOrder}
+            onCancel={requestCancelOrder}
           />
         </div>
       </div>
+
+      {showModal && (
+        <ConfirmationModal
+          title="Cancel Order"
+          message="Are you sure you want to cancel this order?"
+          confirmText="Yes, Cancel Order"
+          cancelText="Go Back"
+          onConfirm={confirmCancelOrder}
+          onCancel={cancelModal}
+        />
+      )}
+      <ToastContainer 
+        position="top-right" 
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }
