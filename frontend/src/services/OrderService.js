@@ -1,4 +1,3 @@
-// frontend/services/OrderService.js
 import axios from "axios";
 
 const BASE_URL = "http://localhost:3000/orders";
@@ -13,35 +12,47 @@ const getAuthHeader = () => {
 };
 
 const OrderService = {
-  createOrder: async (orderData) => {
-    const res = await axios.post(BASE_URL, orderData, getAuthHeader());
-    return res.data;
-  },
+    // Used in cart to submit an order
+    createOrder: async (orderData) => {
+        const res = await axios.post(BASE_URL, orderData, getAuthHeader());
+        return res.data;
+    },
 
-  getOrderById: async (transactionID) => {
-    const res = await axios.get(`${BASE_URL}/${transactionID}`, getAuthHeader());
-    return res.data;
-  },
+    // Not used yet
+    getOrderById: async (transactionID) => { 
+        const res = await axios.get(`${BASE_URL}/${transactionID}`, getAuthHeader());
+        return res.data;
+    },
 
-  updateOrder: async (transactionID, orderStatus) => {
-    const res = await axios.put(`${BASE_URL}/${transactionID}`, { orderStatus }, getAuthHeader());
-    return res.data;
-  },
+    // Not used yet
+    updateOrder: async (transactionID, orderStatus) => {
+        const res = await axios.put(`${BASE_URL}/${transactionID}`, { orderStatus }, getAuthHeader());
+        return res.data;
+    },
 
-  deleteOrder: async (transactionID) => {
-    const res = await axios.delete(`${BASE_URL}/${transactionID}`, getAuthHeader());
-    return res.data;
-  },
+    // Not used yet
+    deleteOrder: async (transactionID) => {
+        const res = await axios.delete(`${BASE_URL}/${transactionID}`, getAuthHeader());
+        return res.data;
+    },
 
-  getOrdersByUser: async () => {
-    const res = await axios.get(BASE_URL, getAuthHeader());
-    return res.data;
-  },
+    // Used by profile to display all orders of user
+    getOrdersByUser: async () => {
+        const res = await axios.get(BASE_URL, getAuthHeader());
+        return res.data;
+    },
 
-  getOrdersWithProducts: async () => {
-    const res = await axios.post(`${BASE_URL}/with-products`, {}, getAuthHeader());
-    return res.data;
-  }
+    // Used in profile to cancel an order 
+    cancelOrder: async (transactionID) => {
+        const res = await axios.put(`${BASE_URL}/${transactionID}/cancel`, {}, getAuthHeader());
+        return res.data;
+    },
+
+    // Not used yet
+    getOrdersWithProducts: async () => {
+        const res = await axios.post(`${BASE_URL}/with-products`, {}, getAuthHeader());
+        return res.data;
+    }
 };
 
 export default OrderService;
