@@ -3,8 +3,8 @@ import Header from "../components/Header";
 import { useCart } from '../context/CartContext';
 import CartItem from "../components/CartItem";
 import OrderSummary from "../components/OrderSummary";
-import OrderService from '../services/OrderService'; // <-- Import the order service
-import { useAuth } from '../context/AuthContext';     // <-- To get user email or ID
+import OrderService from '../services/OrderService'; 
+import { useAuth } from '../context/AuthContext';     
 
 export default function CartPage() {
   const { cartItems, updateQuantity, removeItem, clearCart } = useCart();
