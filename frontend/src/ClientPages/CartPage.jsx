@@ -3,13 +3,17 @@ import Header from "../components/Header";
 import { useCart } from '../context/CartContext';
 import CartItem from "../components/CartItem";
 import OrderSummary from "../components/OrderSummary";
-import OrderService from '../services/OrderService'; 
-import { useAuth } from '../context/AuthContext';     
+import OrderService from '../services/OrderService';
+import { useAuth } from '../context/AuthContext';
+import ConfirmationModal from '../components/ConfirmationModal'; 
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function CartPage() {
   const { cartItems, updateQuantity, removeItem, clearCart } = useCart();
   const { user } = useAuth();
   const [submitting, setSubmitting] = useState(false);
+  const [showModal, setShowModal] = useState(false); // modal state
 
   const subtotal = cartItems.reduce(
     (sum, item) => sum + ((item.productPrice ?? 0) * item.quantity),
@@ -18,42 +22,45 @@ export default function CartPage() {
   const shippingFee = 20.00;
   const total = subtotal + shippingFee;
 
-  const handleCheckout = async () => {
+  const handleProceedCheckout = () => {
     if (!user) {
       alert("You must be logged in to checkout.");
       return;
     }
+    setShowModal(true); // show modal
+  };
 
-    const confirmed = window.confirm("Are you sure you want to checkout?");
-    if (!confirmed) return;
-
+  const handleConfirmCheckout = async () => {
+    setShowModal(false);
     setSubmitting(true);
 
+    const orderPayload = {
+      email: user.email,
+      products: cartItems.map(item => ({
+        productID: item.productID,
+        quantity: item.quantity,
+      })),
+      orderStatus: 0,
+      dateOrdered: new Date().toISOString(),
+    };
+
+    console.log("Submitting orderPayload:", orderPayload);
+
     try {
-      // Build order payload
-      const orderPayload = {
-        email: user.email, // ✅ match schema
-        products: cartItems.map(item => ({
-          productID: item.productID,
-          quantity: item.quantity,
-        })),
-        orderStatus: 0, // PENDING
-        dateOrdered: new Date().toISOString(),
-      };
-
-      // Submit to backend
-      await OrderService.createOrder(orderPayload);
-
-      alert("Order placed successfully!");
-      clearCart(); // Optional: clears the cart
+      const response = await OrderService.createOrder(orderPayload);
+      console.log("Order created:", response.data);
+      toast.success("Order placed successfully!");
+      clearCart();
     } catch (error) {
       console.error("Checkout failed:", error);
-      alert("Checkout failed. Please try again.");
+      if (error.response) {
+        console.error("Backend said:", error.response.data);
+      }
+      toast.error("Checkout failed. Please try again.");
     } finally {
       setSubmitting(false);
     }
   };
-
 
   return (
     <div className="harvest-container">
@@ -74,9 +81,36 @@ export default function CartPage() {
             ))}
           </div>
 
-          <OrderSummary subtotal={subtotal} shippingFee={shippingFee} total={total} onCheckout={handleCheckout} submitting={submitting} />
+          <OrderSummary
+            subtotal={subtotal}
+            shippingFee={shippingFee}
+            total={total}
+            onCheckout={handleProceedCheckout} // changed from handleCheckout
+            submitting={submitting}
+          />
         </div>
       </div>
+
+      {showModal && (
+        <ConfirmationModal
+          title="Confirm Checkout"
+          message="Are you sure you want to place this order?"
+          confirmText="Confirm"
+          cancelText="Cancel"
+          onCancel={() => setShowModal(false)}
+          onConfirm={handleConfirmCheckout}
+        />
+      )}
+    <ToastContainer 
+      position="top-right" 
+      autoClose={2000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+    />
     </div>
   );
 }
