@@ -13,6 +13,7 @@ import SignUpScreen1 from './ClientPages/Sign-up-Screen-1';
 import './App.css';
 import AdminDashboard from './ClientPages/AdminDashboard';
 import { ProtectedRoute } from './routes/ProtectedRoute';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
