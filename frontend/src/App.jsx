@@ -13,6 +13,7 @@ import SignUpScreen1 from './ClientPages/Sign-up-Screen-1';
 import './App.css';
 import AdminDashboard from './ClientPages/AdminDashboard';
 import { ProtectedRoute } from './routes/ProtectedRoute';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/sign-in-screen" element={<SignInScreen />} />
             <Route path="/home-page" element={ <ProtectedRoute> <HomePage /> </ProtectedRoute> } />
             <Route path="/cart" element={ <ProtectedRoute> <CartPage /> </ProtectedRoute> } />
+            <Route path="/profile" element={ <ProtectedRoute> <ProfilePage /> </ProtectedRoute> } />
             <Route path="/sign-up-screen-1" element={<SignUpScreen1 />} />
             <Route path="/sign-up-screen-2" element={<SignUpScreen2 />} />
             <Route path="/admin-dashboard" element={ <ProtectedRoute allowedRoles={['merchant']}> <AdminDashboard /> </ProtectedRoute> } />

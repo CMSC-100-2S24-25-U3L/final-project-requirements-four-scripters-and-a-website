@@ -103,31 +103,65 @@ export const getOrderTransaction = async (req, res) => {
   }
 };
 
-// export const getOrdersByUser = async (req, res) => {
-//   try {
-//     const { email } = req.query;
-//     if (!email) return res.status(400).json({ error: 'Email query parameter is required' });
 
-//     const orders = await OrderTransaction.find({ userEmail: email }).populate('product');
-//     res.json(orders);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
 
+// Used in profile to display orders of a user
 export const getOrdersByUser = async (req, res) => {
   try {
-    const { email } = req.query;
-    if (!email) return res.status(400).json({ error: 'Email query parameter is required' });
+    const email = req.user.email; // Comes from token payload (e.g., jwt.decode(token))
+    if (!email) return res.status(400).json({ error: 'User email missing in token' });
 
-    const orders = await OrderTransaction.find({ email })  // use 'email', not 'userEmail'
-      .populate('products.productID');  // populate nested productID in products array
+    const orders = await OrderTransaction.find({ email })
+      .populate('products.productID');
 
     res.json(orders);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
+// Used in profile to cancel orders of a user
+export const cancelOrder = async (req, res) => {
+  const { transactionID } = req.params;
+
+  try {
+    const order = await OrderTransaction.findById(transactionID).populate('products.productID');
+
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+    if (order.orderStatus === 2) return res.status(400).json({ message: 'Order already cancelled' });
+
+    // Revert product quantities
+    for (const item of order.products) {
+      const product = await Product.findById(item.productID._id);
+      if (product) {
+        product.productQuantity += item.quantity;
+        await product.save();
+      }
+    }
+
+    // Update order status
+    order.orderStatus = 2; // CANCELLED
+    await order.save();
+
+    res.status(200).json({ message: 'Order cancelled and stock restored', order });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error during cancellation' });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const getOrdersWithProducts = async (req, res) => {
   try {

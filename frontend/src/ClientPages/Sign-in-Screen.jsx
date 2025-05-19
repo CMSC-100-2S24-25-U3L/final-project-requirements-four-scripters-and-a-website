@@ -34,16 +34,15 @@ function SignInScreen() {
 
         } catch (err) {
             console.error('[SignInScreen] Login error:', {
-            message: err.message,
-            details: err.details,
-            original: err.originalError
+                message: err.message,
+                details: err.details,
+                original: err.originalError
             });
-            
             // display the most specific error message available
             setError(err.details || err.message || 'Login failed. Please try again.');
         }
     };
-    
+        
     return (
         <div className="sign-in-bg">
             <div className="sign-in-box">

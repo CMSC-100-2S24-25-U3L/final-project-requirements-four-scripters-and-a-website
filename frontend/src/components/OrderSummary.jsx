@@ -1,4 +1,4 @@
-export default function OrderSummary({ subtotal, shippingFee, total }) {
+export default function OrderSummary({ subtotal, shippingFee, total, onCheckout, submitting}) {
   return (
     <div className="order-summary">
       <h2>Order Summary</h2>
@@ -23,7 +23,7 @@ export default function OrderSummary({ subtotal, shippingFee, total }) {
         <span>₱{total.toFixed(2)}</span>
       </div>
 
-      <button className="checkout-btn">PROCEED TO CHECKOUT</button>
+      <button className="checkout-btn" onClick={onCheckout} disabled={submitting}>PROCEED TO CHECKOUT</button>
       <button className="continue-shopping-btn">Continue Shopping</button>
     </div>
   );
