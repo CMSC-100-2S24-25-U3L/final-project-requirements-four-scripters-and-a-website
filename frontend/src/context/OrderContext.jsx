@@ -11,10 +11,11 @@ export function OrderProvider({ children }) {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Get all orders of user for profile page
   const fetchOrders = async (userEmail) => {
     setLoading(true);
     try {
-      const data = await OrderService.getAllOrdersByUser(userEmail);
+      const data = await OrderService.getOrdersByUser(userEmail); // Changed getAllOrdersByUser to getOrdersByUser
       setOrders(data);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -23,6 +24,7 @@ export function OrderProvider({ children }) {
     }
   };
 
+  // Not yet used
   const updateOrderStatus = async (transactionID, orderStatus) => {
     try {
       const updatedOrder = await OrderService.updateOrderStatus(transactionID, orderStatus);
@@ -36,6 +38,7 @@ export function OrderProvider({ children }) {
     }
   };
 
+  // Noy yet used
   const removeOrder = async (transactionID) => {
     try {
       await OrderService.deleteOrder(transactionID);

@@ -8,94 +8,52 @@ import { useAuth } from '../context/AuthContext';
 function SignUpScreen2() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState(''); // error message storage
-    const [showError, setShowError] = useState(false); // To control error visibility
+    const [error, setError] = useState('');
+    const [showError, setShowError] = useState(false);
     const navigate = useNavigate();
     const { signup } = useAuth();
 
-    console.log('[SignUpScreen2] Rendering with state:', { password, confirmPassword, error });
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('[SignUpScreen2] Form submitted');
         setError('');
-        
-        // get form data stored from the previous step
+
         const signupData = JSON.parse(sessionStorage.getItem('signupData'));
-        console.log('[SignUpScreen2] Retrieved signupData from sessionStorage:', signupData);
-        
-        // if data is missing, send user back to step 1
+
         if (!signupData) {
-            console.log('[SignUpScreen2] No signupData found - redirecting to step 1');
             navigate('/sign-up-screen-1');
             return;
         }
 
-        // check if passwords match and are long enough
         if (password !== confirmPassword) {
-            console.log('[SignUpScreen2] Passwords do not match');
             setError('Passwords do not match');
-            setShowError(true); // Show error notification
+            setShowError(true);
             return;
         }
 
         if (password.length < 8) {
-            console.log('[SignUpScreen2] Password too short');
             setError('Password must be at least 8 characters');
-            setShowError(true); // Show error notification
+            setShowError(true);
             return;
         }
 
         try {
-
-            // merge stored data with new password
             const userData = {
                 ...signupData,
-                password
+                password,
             };
-            
-            console.log('[SignUpScreen2] Attempting signup with data:', userData);
-            
-            // call the signup function from AuthContext
-            await signup(userData);
-            
-            console.log('[SignUpScreen2] Signup successful - clearing sessionStorage');
 
-//             const response = await fetch('http://localhost:3000/auth/signup', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                 },
-//                 body: JSON.stringify({
-//                     ...signupData,
-//                     password
-//                 }),
-//             });
+            await signup(userData); // This should handle everything
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Sign up failed');
-            }
-
-            localStorage.setItem('userEmail', data.email);
-            localStorage.setItem('userName', `${data.firstName} ${data.lastName}`);
-
-            // Clear signup session data
             sessionStorage.removeItem('signupData');
-            
-            // after signup, send user to login page
-            console.log('[SignUpScreen2] Navigating to /sign-in-screen');
             navigate('/sign-in-screen');
         } catch (err) {
-            console.error('[SignUpScreen2] Signup error:', err);
-            setError(err.message);
-            setShowError(true); // Show error notification for server errors
+            setError(err.message || 'Signup failed');
+            setShowError(true);
         }
     };
 
     const closeErrorPopup = () => {
-        setShowError(false); // Close the error notification
+        setShowError(false);
     };
 
     return (
@@ -133,7 +91,7 @@ function SignUpScreen2() {
                     <img src={Image} className="sign-in-image" alt="Sign Up Visual" />
                 </div>
             </div>
-            
+
             {showError && (
                 <div className="error-popup">
                     <div className="error-popup-content">

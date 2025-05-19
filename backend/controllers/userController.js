@@ -105,8 +105,8 @@ export const getUser = async (req, res) => {
 
 export const getCurrentUser = async (req, res) => {
   try {
-    // the authenticateUser middleware already attached the user to req.user
-    res.json(req.user);
+    const { password, tokens, ...safeUser } = req.user.toObject();
+    res.json(safeUser);
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
   }
