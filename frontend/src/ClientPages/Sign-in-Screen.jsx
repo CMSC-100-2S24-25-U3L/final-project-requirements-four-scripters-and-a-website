@@ -3,16 +3,48 @@ import Image from '../assets/sign-up-img.jpg';
 import Logo from '../assets/harvest-logo-colored.png';
 import React, { useState } from 'react';
 import { useNavigate} from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; // import the auth context
 
 function SignInScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { login } = useAuth();
 
-    const handleSubmit = (e) => {
+    console.log('[SignInScreen] Rendering with state:', { email, error });
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+
+        try {
+            console.log('[SignInScreen] Attempting login');
+            const user = await login(email, password);
+            console.log('[SignInScreen] Login successful, user:', user);
+
+            // Save extra info if needed (not required, but fine)
+            localStorage.setItem('userEmail', user.email);
+            localStorage.setItem('userName', `${user.firstName} ${user.lastName}`);
+
+            // Navigate based on userType
+            const redirectPath = user.userType === 'merchant' 
+                ? '/admin-dashboard' 
+                : '/home-page';
+
+            console.log('[SignInScreen] Navigating to:', redirectPath);
+            navigate(redirectPath);
+
+        } catch (err) {
+            console.error('[SignInScreen] Login error:', {
+                message: err.message,
+                details: err.details,
+                original: err.originalError
+            });
+            setError(err.details || err.message || 'Login failed. Please try again.');
+        }
     };
-    
+        
     return (
         <div className="sign-in-bg">
             <div className="sign-in-box">
@@ -52,6 +84,15 @@ function SignInScreen() {
                     <img src={Image} className="sign-in-image" alt="Sign In Visual" />
                 </div>
             </div>
+
+            {error && (
+                <div className="error-popup">
+                    <div className="error-popup-content">
+                        <p>{error}</p>
+                        <button onClick={() => setError('')}>Close</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

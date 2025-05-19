@@ -1,4 +1,5 @@
 import { ShoppingCart, User } from 'lucide-react';
+import { Link } from 'react-router-dom'; 
 
 export default function Header() {
   return (
@@ -7,17 +8,17 @@ export default function Header() {
         <image src=""> </image>
       </div>
       <div className="nav-links">
-        <a href="#" className="nav-link text-orange-500">
+        <Link to="/home-page" className="nav-link text-orange-500">
           <span>Market</span>
-        </a>
-        <a href="#" className="nav-link">
+        </Link>
+        <Link to="/cart" className="nav-link">
           <ShoppingCart size={18} />
           <span>Cart</span>
-        </a>
-        <a href="#" className="nav-link">
+        </Link>
+        <Link to="/profile" className="nav-link"> 
           <User size={18} />
           <span>View Profile</span>
-        </a>
+        </Link>
       </div>
     </header>
   );
