@@ -18,51 +18,19 @@ function SignInScreen() {
         e.preventDefault();
         setError('');
         
-
-//         try {
-//             console.log('[SignInScreen] Attempting login');
-//             // call the login function from AuthContext
-//             const user = await login(email, password);
-//             console.log('[SignInScreen] Login successful, user:', user);
+        try {
+            console.log('[SignInScreen] Attempting login');
+            // call the login function from AuthContext
+            const user = await login(email, password);
+            console.log('[SignInScreen] Login successful, user:', user);
             
-//             // navigate based on user type
-//             const redirectPath = user.userType === 'merchant' 
-//             ? '/admin-dashboard' 
-//             : '/home-page';
+            // navigate based on user type
+            const redirectPath = user.userType === 'merchant' 
+            ? '/admin-dashboard' 
+            : '/home-page';
             
-//             console.log('[SignInScreen] Navigating to:', redirectPath);
-//             navigate(redirectPath);
-
-        try {   // api call
-            const response = await fetch('http://localhost:3000/auth/signin', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password })
-
-            });
-
-            // the user
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Sign in failed');
-            }
-
-            // Save the user's email and name in localStorage
-            localStorage.setItem('userEmail', data.email);
-            localStorage.setItem('userName', `${data.firstName} ${data.lastName}`);
-
-            // if no error, navigate to the appropriate screen
-            if (data.userType === 'customer') {
-                navigate('/home-page');
-            } else if (data.userType === 'merchant') {
-                navigate('/admin-dashboard');
-            } else {
-                // Default fallback
-                navigate('/home-page');
-            }
+            console.log('[SignInScreen] Navigating to:', redirectPath);
+            navigate(redirectPath);
 
         } catch (err) {
             console.error('[SignInScreen] Login error:', {

@@ -136,12 +136,8 @@ export const getOrdersWithProducts = async (req, res) => {
       return res.status(400).json({ error: 'transactionIDs array is required in the request body' });
     }
 
-    // Assuming you can fetch order details including product info.
-    // This might require a join or populate if using MongoDB with refs.
-
-    // For example, if orders have a reference to products:
     const orders = await OrderTransaction.find({ transactionID: { $in: transactionIDs } })
-      .populate('product'); // Adjust if you store product refs differently
+      .populate('product');
 
     res.json(orders);
   } catch (error) {
