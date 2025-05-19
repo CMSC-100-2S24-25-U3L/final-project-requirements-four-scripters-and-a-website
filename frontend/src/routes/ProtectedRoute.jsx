@@ -12,7 +12,7 @@ export const ProtectedRoute = ({ children, allowedRoles }) => {
 
   // show a loading message while authentication status is still being checked
   if (loading) {
-    return <div>loading...</div>; // or your custom loading component
+    return <div>loading...</div>;
   }
 
   // if there is no logged-in user, redirect to the sign-in screen
