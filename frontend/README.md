@@ -1,12 +1,38 @@
-# React + Vite
+- Project Title - Four Scripters and a website - 'Harvest' (Final Project)
+- Authors - Clarence Joshua T. Bernardino, Marc Joemill Mendoza, Kristan Louie Escarilla, and Christian Jay Sevilla
+- Code Description - A simple system to make a user try a shopping app where they can add an item to their cart with state managements using hooks to make the app interactive. 
+- How to use - 
+1) Open a terminal, type 'cd backend', enter and 'node server.js', enter
+2) Open a terminal, type 'cd frontend', enter and 'npm run dev', enter, then ctrl + left click on the Link beside "Local: "  
+3) Sign up/in with credentials
+4) Order some food
+5) Checkout with billing information
+6) Wait for admin to approve your order, you can track your order while waiting
+7) Once approved, confrm it by selecting the 'Mark as Recieved' option
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+sources:
+backend/controllers:
+- https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript
+- https://www.npmjs.com/package/bcrypt
+- https://mongoosejs.com/docs/tutorials/findoneandupdate.html
+- https://jwt.io/introduction
+- https://www.npmjs.com/package/jsonwebtoken
+- https://dev.to/satokenta/understanding-jwt-and-bearer-tokens-what-every-developer-should-know-35j8
 
-Currently, two official plugins are available:
+backend/models:
+- https://www.npmjs.com/package/jsonwebtoken
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+frontend/src/assets:
 
-## Expanding the ESLint configuration
+frontend/src/ClientPages:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+frontend/src/components:
+
+frontend/src/context:
+- https://www.geeksforgeeks.org/javascript-fetch-method/
+
+frontend/src/routes:
+
+frontend/src/services:
+
+
