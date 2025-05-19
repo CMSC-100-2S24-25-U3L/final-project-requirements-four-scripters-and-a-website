@@ -15,7 +15,7 @@ function SplashPage(props) {
             <div className="logo-container">
                 {/* <p className="welcome-text">WELCOME TO HARVEST</p> */}
                 <img src={HarvestLogoShadow} className="shadow-logo" alt="Harvest Logo Shadow" />
-                <button className="splash-signin" onClick={() => navigate('/sign-in-screen')}>SIGN IN</button>
+                <button className="splash-signin" onClick={() => navigate(/* '/sign-in-screen' */ '/admin-dashboard')}>SIGN IN</button>
             </div>
 
             <div className="space"></div>

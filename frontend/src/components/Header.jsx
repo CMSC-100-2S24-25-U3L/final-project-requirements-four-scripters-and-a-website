@@ -4,10 +4,7 @@ export default function Header() {
   return (
     <header className="header">
       <div className="logo-container">
-        <h1 className="logo">
-          <span className="logo-text">harvest</span>
-          <span className="logo-icon">🌱</span>
-        </h1>
+        <image src=""> </image>
       </div>
       <div className="nav-links">
         <a href="#" className="nav-link text-orange-500">
