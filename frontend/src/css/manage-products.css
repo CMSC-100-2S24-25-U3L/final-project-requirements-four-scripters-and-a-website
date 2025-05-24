@@ -1,0 +1,6 @@
+.products {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 2.5rem; /* 40px / 16px, matches previous spacing */
+    padding: 0 20px; /
+}

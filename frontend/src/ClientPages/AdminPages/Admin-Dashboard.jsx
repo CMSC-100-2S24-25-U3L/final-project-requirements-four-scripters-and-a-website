@@ -15,25 +15,42 @@ export default function AdminDashboard() {
                 
             </div>
             <div className="dashboard-content" > 
-                <h1 className="Header">This month's summary:</h1>
+                <h1 className="Header">This Month's Summary</h1>
                 <hr className="divider"></hr>
                 <div className = "content-tiles">
                     <div className = "statistic-tiles">
                         <StatisticsTile />
-                        <StatisticsTile />
+                        <StatisticsTile id="product-stats"/>
                     </div>
                     <div className = "square-right-tiles">
-                        <div className = "harvester-count">
-                            <h2 className="harv-count-text">As of -CURRENTDATE- there are</h2>
-                            <h1 className="user-count-text">-USERCOUNT-</h1>
-                            <h2 className="harv-count-text-cont">Harvesters</h2>
+                        <div id = "harvesters-square-tile" >
+                            <div className = "text-square">
+
+                                <h2 className="harv-count-text">As of <br></br></h2>
+                                <h1 className="harv-count-text" id="date-text">-DATE-</h1>
+                                <h2>there are</h2>
+                                <h1 className="harv-count-text" id="user-count-text">-USERCOUNT-</h1>
+                                <h2 className="harv-count-text" id="harv-count-text-cont">Harvesters</h2>
+                            </div>
                         </div>
 
-                        <div className = "top-products">
-                            <h2 className = "top-products-header">
-                                Most sold products for this month:
-                            </h2>
-                            <p className></p>
+                        <div id = "top-products-square-tile">
+                            <div className="text-square">
+                                <h2 className = "top-products-header">
+                                    MOST SOLD PRODUCTS
+                                </h2>
+                                <hr className="top-products-divider"></hr>
+                                <p className = "top-product-item">Insert Item Here</p>
+                                <p className = "top-product-item">Insert Item Here</p>
+                                <p className = "top-product-item">Insert Item Here</p>
+                                <p className = "top-product-item">Insert Item Here</p>
+                                <p className = "top-product-item">Insert Item Here</p>
+                                <p className = "top-product-item">Insert Item Here</p>
+                                <p className = "top-product-item">Insert Item Here</p>
+                                <p className = "top-product-item">Insert Item Here</p>
+                                <p className = "top-product-item">Insert Item Here</p>
+                                <p className = "top-product-item">Insert Item Here</p>
+                            </div>
                         </div>
                     </div>
                 </div>
