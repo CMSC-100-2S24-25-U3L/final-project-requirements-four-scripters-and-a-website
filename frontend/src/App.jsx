@@ -10,9 +10,13 @@ import SplashPage from "./ClientPages/SplashPage";
 import SignInScreen from './ClientPages/Sign-in-Screen';
 import SignUpScreen2 from './ClientPages/Sign-up-Screen-2';
 import SignUpScreen1 from './ClientPages/Sign-up-Screen-1';
-import AdminDashboard from './ClientPages/Admin-Dashboard';
+import AdminDashboard from './ClientPages/AdminPages/Admin-Dashboard';
+import AdminProfile from './ClientPages/AdminPages/AdminProfile';
+import ManageProducts from './ClientPages/AdminPages/ManageProducts';
+import ManageOrders from './ClientPages/AdminPages/ManageOrders';
+import SalesReport from './ClientPages/AdminPages/SalesReport';
+import ManageUsers from './ClientPages/AdminPages/ManageUsers';
 import './App.css';
-import AdminDashboard from './ClientPages/AdminDashboard';
 import { ProtectedRoute } from './routes/ProtectedRoute';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -30,6 +34,11 @@ function App() {
             <Route path="/sign-up-screen-1" element={<SignUpScreen1 />} />
             <Route path="/sign-up-screen-2" element={<SignUpScreen2 />} />
             <Route path="/admin-dashboard" element={ <ProtectedRoute allowedRoles={['merchant']}> <AdminDashboard /> </ProtectedRoute> } />
+            <Route path="/manage-products" element={ <ProtectedRoute allowedRoles={['merchant']}> <ManageProducts /> </ProtectedRoute> } />
+            <Route path="/manage-orders" element={ <ProtectedRoute allowedRoles={['merchant']}> <ManageOrders /> </ProtectedRoute> } />
+            <Route path="/manage-users" element={ <ProtectedRoute allowedRoles={['merchant']}> <ManageUsers /> </ProtectedRoute> } />
+            <Route path="/sales-report" element={ <ProtectedRoute allowedRoles={['merchant']}> <SalesReport /> </ProtectedRoute> } />
+            <Route path="/admin-profile" element={ <ProtectedRoute allowedRoles={['merchant']}> <AdminProfile /> </ProtectedRoute> } />
           </Routes>
         </Router>
       </AuthProvider>
