@@ -2,7 +2,7 @@ import AdminHeader from "../../components/AdminHeader";
 import ProductTile from "../../components/ManageProductTile";
 import Filter from "../../components/ManageProductsFilter.jsx";
 import React, { useState } from 'react';
-
+import '../../css/manage-products.css';
 
 
 export default function ManageProducts(product) {
@@ -31,8 +31,13 @@ export default function ManageProducts(product) {
                         product={product} // Fixed typo: produc -> product
                     />
                 ))}
+                <ProductTile />
+                <ProductTile />
+                <ProductTile />
+                <ProductTile />
+                <ProductTile />
             </div>
-            <ProductTile />
+            
         </div>
     )
 }

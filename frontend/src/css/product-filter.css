@@ -1,17 +1,24 @@
 .header {
-    margin-top: 40px;
-    margin-left: 80px;
     font-family: 'Open Sans';
     font-size: 13px;
-    background-color: rgb(76, 124, 47);
     color: rgb(255, 255, 255);
-    width: 100px;
-    height: 10px;
-    padding: 1px;
-    border-radius: 100px;
     text-align: center;
     justify-content: center;
     align-items: center;
+}
+
+.header-container {
+    align-items: center;
+    background-color: rgb(76, 124, 47);
+    width: 130px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    margin-left: 80px;
+    margin-bottom: 10px;
+    padding: 1px;
+    border-radius: 100px;
 }
 
 .divider-manage {
