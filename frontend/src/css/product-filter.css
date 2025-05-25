@@ -1,0 +1,31 @@
+.header {
+    font-family: 'Open Sans';
+    font-size: 13px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-container {
+    align-items: center;
+    background-color: rgb(76, 124, 47);
+    width: 130px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    margin-left: 80px;
+    margin-bottom: 10px;
+    padding: 1px;
+    border-radius: 100px;
+}
+
+.divider-manage {
+    height: 1.5px; /* 1px / 16px */
+    width: 90%;
+    background-color: rgb(224, 224, 224);
+    margin-bottom: 1.875rem; /* 30px / 16px */
+    margin-top: 0.1875rem; /* 3px / 16px */
+    border: none;
+}

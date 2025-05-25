@@ -1,0 +1,43 @@
+import AdminHeader from "../AdminComponents/AdminHeader";
+import ProductTile from "../AdminComponents/ManageProductTile";
+import Filter from "../AdminComponents/ManageProductsFilter.jsx";
+import React, { useState } from 'react';
+import '../css/manage-products.css';
+
+
+export default function ManageProducts(product) {
+    const [products, setProducts] = useState([]);
+
+    const addProduct = () => {
+        const newProduct = {
+            productName: null, 
+            productDescription: null, 
+            productPrice: null,
+            productType: null,
+            productQuantity: null,
+            productImage: null
+        };
+        setProducts([...products, newProduct]);
+    }
+
+    return(
+        <div>
+            <AdminHeader />
+            <Filter />
+            <div className="products">
+                {products.map((product) => (
+                    <ProductTile 
+                        key={product.id} // Add a unique key prop
+                        product={product} // Fixed typo: produc -> product
+                    />
+                ))}
+                <ProductTile />
+                <ProductTile />
+                <ProductTile />
+                <ProductTile />
+                <ProductTile />
+            </div>
+            
+        </div>
+    )
+}

@@ -1,0 +1,140 @@
+.admin-dashboard {
+    background-image: url(../assets/bg-1-edited.png);
+    background-size: cover;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    width: 100%;
+    font-family: 'Open Sans';
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.dashboard-content {
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    height: 100%;
+    padding: 6.25vw;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+.content-tiles {
+    display: flex;
+    flex-direction: row;
+    column-gap: 0.521vw;
+    justify-content: center;
+    flex-wrap: nowrap;
+    margin-top: 40px;
+}
+
+.square-right-tiles {
+    display: flex;
+    flex-direction: row;
+    column-gap: 0.521vw;
+    width: 100%;
+}
+
+#harvesters-square-tile {
+    color: rgba(37, 28, 0);
+    font-size: 1.25rem;
+    box-shadow: 0.104vw 0.104vw 0.208vw rgba(37, 28, 0, 0.5);
+    width: 27.708vw;
+    box-sizing: border-box;
+}
+
+.text-square {
+    margin: 1.875rem;
+}
+
+.top-products-header {
+    color: rgb(29, 75, 0);
+    font-size: 1.9rem;
+    margin-bottom: -0.125rem;
+}
+
+#top-products-square-tile {
+    background-color: rgb(248, 158, 27);
+    box-shadow: 0.104vw 0.104vw 0.208vw rgba(37, 28, 0, 0.5);
+    width: 27.708vw;
+}
+
+.top-products-list {
+    list-style-type: decimal; /* Ensure numbers are displayed */
+    padding-left: 1.5rem; /* Provide space for the numbers */
+    margin: 0; /* Remove default margins */
+}
+
+.top-product-item {
+    color: rgb(255, 255, 255);
+    margin-bottom: 3px; /* Remove negative margin-top and adjust spacing */
+    font-size: 20px;
+    /* Removed display: flex to allow natural list rendering */
+}
+
+.top-products-divider {
+    height: 0.03125rem;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    margin-bottom: 1.3rem;
+    margin-top: 0.1875rem;
+    border: none;
+}
+
+.Header {
+    align-items: center;
+    letter-spacing: -0.1875rem;
+    font-size: 3.4375rem;
+    font-family: 'Open Sans';
+    font-weight: bold;
+    color: rgb(29, 75, 0);
+    margin-top: 0.3125rem;
+    margin-bottom: 0.9375rem;
+}
+
+.harv-count-text {
+    margin-bottom: -30px;
+    font-size: 30px;
+}
+
+#date-text {
+    color: rgb(29, 75, 0);
+}
+
+#user-count-text {
+    color: rgb(248, 158, 27);
+    font-size: 70px;
+    margin-top: 150px;
+}
+
+.footer {
+    bottom: 0;
+    align-items: center;
+}
+
+.statistic-tiles {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    row-gap: 0.625rem;
+}
+
+#product-stats:hover {
+    background-color: rgb(29, 75, 0);
+}
+
+.divider {
+    height: 1.5px;
+    width: 100%;
+    background-color: rgb(29, 75, 0);
+    margin-bottom: 1.875rem;
+    margin-top: 0.1875rem;
+    border: none;
+}
+
+.space {
+    height: 46.296vh;
+}

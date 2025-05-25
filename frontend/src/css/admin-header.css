@@ -1,0 +1,58 @@
+.admin-header {
+    display: flex;
+    width: 100%;
+    height: 56px;
+    background-color: #f89c1c;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.admin-logo-container {
+    padding-left: 10px;
+    display: flex;
+    justify-content: start;
+}
+
+.nav-logo {
+    width: 125px;
+}
+
+.admin-nav-links {
+    font-family: 'Open Sans';
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    width: 1200px;
+    max-width: 1200px;
+    padding-right: 20px;
+}
+
+.icon {
+    color: rgb(255, 255, 255);
+}
+
+.icon-text {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+
+}
+
+#view-profile {
+    padding-left: 70px;
+}
+
+.nav-link {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 3px; 
+    padding: 8px 12px; 
+    border-radius: 4px; 
+}
+
+.nav-link:hover .icon,
+.nav-link:hover .icon-text {
+    color: rgb(76, 124, 47);
+}
