@@ -1,0 +1,73 @@
+/* Container to hold both the tracker and main content */
+.app-container {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+}
+
+.user-summary-tracker {
+    width: 20vw; /* Fixed width for the sidebar */
+    padding-left: 2.25rem;
+    background: transparent; /* No background as requested */
+    border-right: 1px solid #e0e0e0; /* Subtle separator */
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.summary-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.space { 
+    width: 30px;
+}
+
+.tracker-title {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    color: rgba(37, 28, 0);
+    margin: 0;
+    margin-bottom: -20px;
+    letter-spacing: -1.5px;
+}
+
+.summary-divider {
+    height: 1px;
+    background-color: rgb(58, 58, 58);
+    width: 100%;
+    border: none;
+}
+
+#tracker-date {
+    margin-left: 0px;
+}
+
+.tracker-item {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.tracker-label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: rgb(100, 100, 100);
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.tracker-value {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    color: rgb(0, 0, 0);
+}
+
+.main-content {
+    flex: 1;
+    padding: 1.25rem;
+}

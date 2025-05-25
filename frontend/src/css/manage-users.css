@@ -1,0 +1,16 @@
+.content-row {
+    margin-right: 0px;
+    display: flex;
+    flex-direction: row;
+    margin-left: 70px;
+}
+
+.users {
+    margin-left: 20px;
+    width: 200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 1rem; /* Matches previous spacing */
+    padding: 10 20px;
+
+}
