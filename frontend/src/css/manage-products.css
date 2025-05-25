@@ -1,4 +1,4 @@
-.products {
+.admin-products {
     display: grid;
     grid-template-columns: 1fr 1fr; /* Two equal columns */
     gap: 1rem; /* 40px / 16px, matches previous spacing */

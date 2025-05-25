@@ -24,7 +24,7 @@ export default function ManageProducts(product) {
         <div>
             <AdminHeader />
             <Filter />
-            <div className="products">
+            <div className="admin-products">
                 {products.map((product) => (
                     <ProductTile 
                         key={product.id} // Add a unique key prop
