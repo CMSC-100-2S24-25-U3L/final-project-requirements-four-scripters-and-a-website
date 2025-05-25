@@ -1,0 +1,102 @@
+/* Updated styles for the individual user tile with smoother hover effect */
+.user-tile {
+    display: flex;
+    align-items: center;
+    background: transparent; /* No background as requested */
+    padding: 1rem;
+    box-sizing: border-box;
+    border: 1px solid #e0e0e0; /* Matches .product-card border */
+    border-top-left-radius: 55px; /* Half the height for a circular corner */
+    border-bottom-left-radius: 55px; /* Half the height for a circular corner */
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    height: 111px; /* Adjusted height to fit the image design */
+    overflow: hidden;
+    transition: transform 0.4s ease-out, box-shadow 0.4s ease-out, background-color 0.2s ease; /* Smoother transition */
+    width: 500px;
+
+}
+
+.user-tile:hover {
+    box-shadow: 0 0.27rem 0.6rem rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
+    background-color: rgba(245, 245, 245, 0.2);
+    transform: translateY(-0.25rem); /* Lift and subtle scale */
+}
+
+/* Avatar placeholder */
+.avatar {
+    width: 85px;
+    height: 85px;
+    border-radius: 500px;
+    background-color: #4C7C2F;
+    margin-right: 20px;
+}
+
+/* Divider */
+.user-divider {
+    height: 0.03125rem; /* Thin line matching .product-card divider */
+    width: 100%; /* Full width of the text area */
+    background-color: rgb(177, 177, 177); /* Gray to match .product-card */
+    margin: 0.25rem 0; /* Minimal margin for placement */
+    border: none;
+    margin-top: 10px;
+}
+
+/* Column layout for user info and type */
+.user-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    height: 100%; /* Ensure it fills the tile height */
+}
+
+/* User info container */
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem; /* Tighter spacing between fields */
+}
+
+/* Individual user detail row */
+.user-details {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Space between label and value */
+}
+
+/* Labels for First Name, Last Name, Middle Initial */
+.detail-label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.75rem;
+    color: rgb(100, 100, 100);
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-bottom: -7px;
+}
+
+/* Values for First Name, Last Name, Middle Initial */
+.detail-value {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.875rem;
+    color: rgb(0, 0, 0);
+    white-space: nowrap;
+    margin-bottom: -7px;
+}
+
+/* User type (not a button) */
+.user-type {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #4C7C2F; /* Green from the reference image */
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Container for the user type */
+.type-container {
+    display: flex;
+    justify-content: flex-end; /* Align to the bottom-right */
+    margin-top: auto; /* Push to the bottom */
+}
