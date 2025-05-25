@@ -15,7 +15,7 @@
     justify-content: start;
 }
 
-.nav-logo {
+.admin-nav-logo {
     width: 125px;
 }
 
@@ -29,30 +29,31 @@
     padding-right: 20px;
 }
 
-.icon {
+.admin-icon {
     color: rgb(255, 255, 255);
 }
 
-.icon-text {
+.admin-icon-text {
     color: rgb(255, 255, 255);
     font-weight: bold;
-
+    text-decoration: none;
 }
 
-#view-profile {
+#admin-view-profile {
     padding-left: 70px;
 }
 
-.nav-link {
+.admin-nav-link {
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 3px; 
     padding: 8px 12px; 
     border-radius: 4px; 
+    text-decoration-line: none;
 }
 
-.nav-link:hover .icon,
-.nav-link:hover .icon-text {
+.admin-nav-link:hover .icon,
+.admin-nav-link:hover .icon-text {
     color: rgb(76, 124, 47);
 }

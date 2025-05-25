@@ -25,7 +25,7 @@ export default function UsersSummary() {
                     <span className="tracker-value">2500</span>
                 </div>
             </div>
-                <div className="space"></div>
+              
         </div>
     );
 };

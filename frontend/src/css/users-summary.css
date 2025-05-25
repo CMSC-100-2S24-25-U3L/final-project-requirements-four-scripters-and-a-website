@@ -7,7 +7,7 @@
 
 .user-summary-tracker {
     width: 20vw; /* Fixed width for the sidebar */
-    padding-left: 2.25rem;
+    padding-left: 0px;
     background: transparent; /* No background as requested */
     border-right: 1px solid #e0e0e0; /* Subtle separator */
     display: flex;
@@ -70,4 +70,5 @@
 .main-content {
     flex: 1;
     padding: 1.25rem;
+    padding-left: -10px;
 }

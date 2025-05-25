@@ -1,29 +1,27 @@
-/* Updated styles for the individual user tile with smoother hover effect */
+
 .user-tile {
     display: flex;
     align-items: center;
-    background: transparent; /* No background as requested */
+    background: transparent;
     padding: 1rem;
     box-sizing: border-box;
-    border: 1px solid #e0e0e0; /* Matches .product-card border */
-    border-top-left-radius: 55px; /* Half the height for a circular corner */
-    border-bottom-left-radius: 55px; /* Half the height for a circular corner */
+    border: 1px solid #e0e0e0; 
+    border-top-left-radius: 55px; 
+    border-bottom-left-radius: 55px; 
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
-    height: 111px; /* Adjusted height to fit the image design */
-    overflow: hidden;
-    transition: transform 0.4s ease-out, box-shadow 0.4s ease-out, background-color 0.2s ease; /* Smoother transition */
-    width: 500px;
-
+    height: 111px; 
+    transition: transform 0.4s ease-out, box-shadow 0.4s ease-out, background-color 0.2s ease; 
+    width: 400px;
+    margin-left: 30px;
 }
 
 .user-tile:hover {
-    box-shadow: 0 0.27rem 0.6rem rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
+    box-shadow: 0 0.27rem 0.6rem rgba(0, 0, 0, 0.15); 
     background-color: rgba(245, 245, 245, 0.2);
-    transform: translateY(-0.25rem); /* Lift and subtle scale */
+    transform: translateY(-0.25rem); 
 }
 
-/* Avatar placeholder */
 .avatar {
     width: 85px;
     height: 85px;
@@ -32,40 +30,36 @@
     margin-right: 20px;
 }
 
-/* Divider */
+
 .user-divider {
-    height: 0.03125rem; /* Thin line matching .product-card divider */
-    width: 100%; /* Full width of the text area */
-    background-color: rgb(177, 177, 177); /* Gray to match .product-card */
-    margin: 0.25rem 0; /* Minimal margin for placement */
+    height: 0.03125rem; 
+    width: 100%; 
+    background-color: rgb(177, 177, 177); 
+    margin: 0.25rem 0; 
     border: none;
     margin-top: 10px;
 }
 
-/* Column layout for user info and type */
 .user-column {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex: 1;
-    height: 100%; /* Ensure it fills the tile height */
+    height: 100%;
 }
 
-/* User info container */
 .user-info {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem; /* Tighter spacing between fields */
+    gap: 0.25rem; 
 }
 
-/* Individual user detail row */
 .user-details {
     display: flex;
     align-items: center;
-    gap: 0.5rem; /* Space between label and value */
+    gap: 0.5rem; 
 }
 
-/* Labels for First Name, Last Name, Middle Initial */
 .detail-label {
     font-family: 'Open Sans', sans-serif;
     font-size: 0.75rem;
@@ -75,7 +69,6 @@
     margin-bottom: -7px;
 }
 
-/* Values for First Name, Last Name, Middle Initial */
 .detail-value {
     font-family: 'Open Sans', sans-serif;
     font-size: 0.875rem;
@@ -84,19 +77,17 @@
     margin-bottom: -7px;
 }
 
-/* User type (not a button) */
 .user-type {
     font-family: 'Open Sans', sans-serif;
     font-size: 0.75rem;
     font-weight: bold;
-    color: #4C7C2F; /* Green from the reference image */
+    color: #4C7C2F; 
     text-transform: uppercase;
     white-space: nowrap;
 }
 
-/* Container for the user type */
 .type-container {
     display: flex;
-    justify-content: flex-end; /* Align to the bottom-right */
-    margin-top: auto; /* Push to the bottom */
+    justify-content: flex-end; 
+    margin-top: auto; 
 }

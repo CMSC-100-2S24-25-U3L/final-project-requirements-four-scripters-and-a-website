@@ -3,10 +3,13 @@ import ProductTile from "../AdminComponents/ManageProductTile";
 import Filter from "../AdminComponents/ManageProductsFilter.jsx";
 import React, { useState } from 'react';
 import '../css/manage-products.css';
+import CategoryNav from "../components/CategoryNav.jsx";
 
 
 export default function ManageProducts(product) {
     const [products, setProducts] = useState([]);
+    const [activeCategory, setActiveCategory] = useState('ALL PRODUCTS');
+    const categories = ['ALL PRODUCTS', 'GRAINS', 'FRUITS', 'VEGETABLES', 'DAIRY', 'MEAT'];
 
     const addProduct = () => {
         const newProduct = {
@@ -23,7 +26,11 @@ export default function ManageProducts(product) {
     return(
         <div>
             <AdminHeader />
-            <Filter />
+            <CategoryNav  
+                categories={categories}
+                activeCategory={activeCategory}
+                setActiveCategory={setActiveCategory}
+            />
             <div className="admin-products">
                 {products.map((product) => (
                     <ProductTile 

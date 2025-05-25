@@ -10,13 +10,14 @@ export default function ManageUsers() {
         <div>
             <AdminHeader />
             <Filter />
-            <div className="content-row">
+            <div className="admin-content-row">
                 <UsersSummary />
-                <div className="users">
+                <div className="admin-users">
                     {usersList.map((user, index) => {
                         <UserTile />
                     })}
                 </div>
+                <UserTile /><UserTile />
             </div>
         </div>
     )

@@ -8,33 +8,33 @@ export default function AdminHeader() {
     <header className="admin-header">
       <div className="admin-logo-container">
         <Link to="/admin-dashboard">
-            <img className="nav-logo" src = {Logo}></img>
+            <img className="admin-nav-logo" src = {Logo}></img>
         </Link>
       </div>
       <div className="admin-nav-links">
-        <Link to="/manage-products" className="nav-link">
-          <ShoppingBag size={18} className='icon'/>
-          <span className='icon-text'>MANAGE PRODUCTS</span>
+        <Link to="/manage-products" className="admin-nav-link">
+          <ShoppingBag size={18} className='admin-icon'/>
+          <span className='admin-icon-text'>MANAGE PRODUCTS</span>
         </Link>
         
-        <Link to="/manage-orders" className="nav-link">
-          < Receipt size={18} className='icon'/>
-          <span className='icon-text'>MANAGE ORDERS</span>
+        <Link to="/manage-orders" className="admin-nav-link">
+          < Receipt size={18} className='admin-icon'/>
+          <span className='admin-icon-text'>MANAGE ORDERS</span>
         </Link>
         
-        <Link to="/sales-report" className="nav-link">
-          <ChartBar size={18} className='icon'/>
-          <span className='icon-text'>SALES REPORTS</span>
+        <Link to="/sales-report" className="admin-nav-link">
+          <ChartBar size={18} className='admin-icon'/>
+          <span className='admin-icon-text'>SALES REPORTS</span>
         </Link>
 
-        <Link to="/manage-users" className="nav-link">
-          <Users size={18} className='icon'/>
-          <span className='icon-text'>MANAGE USERS</span>
+        <Link to="/manage-users" className="admin-nav-link">
+          <Users size={18} className='admin-icon'/>
+          <span className='admin-icon-text'>MANAGE USERS</span>
         </Link>
 
-        <Link to="/admin-profile" className="nav-link" id="view-profile"> 
-          <User size={18} className='icon'/>
-          <span className='icon-text' >VIEW PROFILE</span>
+        <Link to="/admin-profile" className="admin-nav-link" id="admin-view-profile"> 
+          <User size={18} className='admin-icon'/>
+          <span className='admin-icon-text' >VIEW PROFILE</span>
         </Link>
       </div>
     </header>

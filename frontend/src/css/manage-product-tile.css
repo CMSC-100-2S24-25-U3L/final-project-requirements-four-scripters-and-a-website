@@ -14,6 +14,13 @@
     margin-bottom: 1.25rem;
     height: 156px;
     justify-content: center;
+    transition: transform 0.4s ease-out, box-shadow 0.4s ease-out, background-color 0.2s ease; 
+}
+
+.admin-product-card:hover {
+    box-shadow: 0 0.27rem 0.6rem rgba(0, 0, 0, 0.15); 
+    background-color: rgba(245, 245, 245, 0.2);
+    transform: translateY(-0.25rem); 
 }
 
 .admin-product-image-placeholder {
@@ -60,11 +67,11 @@
 }
 
 .admin-divider {
-    height: 0.03125rem; /* 0.5px / 16px */
+    height: 0.03125rem; 
     width: 100%;
     background-color: rgb(177, 177, 177);
-    margin-bottom: -0.5rem; /* 5px / 16px */
-    margin-top: 0.1875rem; /* 3px / 16px */
+    margin-bottom: 7px;
+    margin-top: 0px; 
     border: none;
 }
 
@@ -73,6 +80,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 0.725rem;
     margin-bottom: -.25rem;
+    margin-left: 10px;
     font-size: 10.5px;
 }
 
@@ -88,7 +96,7 @@
     font-weight: bold;
     color: rgb(100, 100, 100);
     text-transform: uppercase;
-    margin-bottom: -0.18rem;
+    margin-bottom: -1px;
     margin-left: -10px;
     margin-right: 10px;
 }
@@ -99,6 +107,7 @@
     color: rgb(0, 0, 0);
     margin-left: -10px;
     margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .admin-product-description {
@@ -106,7 +115,7 @@
     flex-direction: column;
     font-size: 8px;
     margin: -10px;
-    margin-left: 5px;
+    margin-left: 0px;
     margin-right: 0.5px;
 }
 
