@@ -6,6 +6,8 @@ import CategoryNav from "../components/CategoryNav.jsx";
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Footer from '../components/Footer.jsx';
+import { CircleX, CirclePlus } from "lucide-react";
 
 const API_BASE_URL = 'http://localhost:3000'; 
 
@@ -160,47 +162,57 @@ export default function ManageProducts() {
     return (
         <div className="manage-products-container">
             <AdminHeader />
-            <CategoryNav  
+            <div className="manage-products-header">
+                <h1 className="Header">Manage Products</h1>
+                <hr className="divider" />
+            </div>
+            <div className="manage-products-header-nav">
+               <CategoryNav  
                 categories={categories}
                 activeCategory={activeCategory}
                 setActiveCategory={setActiveCategory}
-            />
+
+
+                /> 
+                <button 
+                    onClick={() => setShowAddForm(!showAddForm)} 
+                    className="add-product-btn"
+                >
+                    {showAddForm ? 
+                        <div className="add-product-button-content"><CircleX className="add-product-button-icon-cancel"/> Cancel </div>: 
+                    
+                    <div className="add-product-button-content"> <CirclePlus className="add-product-button-icon-add"/> Add New Product </div>}
+                </button>
+
+            </div>
+            
             <div className="admin-products">
                 {user?.userType === 'merchant' && (
                     <>
-                        <button 
-                            onClick={() => setShowAddForm(!showAddForm)} 
-                            className="add-product-btn"
-                        >
-                            {showAddForm ? 'Cancel' : 'Add New Product'}
-                        </button>
                         
                         {showAddForm && (
-                            <div>
-                                <h3>Add New Product</h3>
-                                <div className="product-form">
-                                    <div>
-                                        <label>Product Name</label>
+                            <div className="admin-new-product-form">
+                                <div className="new-product-form-upper">
+                                    <h3 className="new-product-form-header">ENTER NEW PRODUCT INFO BELOW</h3>
+                                    <hr className="new-product-form-divider"></hr>
+                                    <div className="new-product-header-row-fields">
+
+                                    <div className="new-product-form-row">
+                                            <label className="new-product-form-field-label">PRODUCT NAME</label>
+                                            <input
+                                                className="new-product-form-field"
+                                                type="text"
+                                                name="productName"
+                                                value={newProduct.productName}
+                                                onChange={handleInputChange}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="new-product-form-row">
+                                        <label className="new-product-form-field-label">PRICE</label>
                                         <input
-                                            type="text"
-                                            name="productName"
-                                            value={newProduct.productName}
-                                            onChange={handleInputChange}
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label>Description</label>
-                                        <textarea
-                                            name="productDescription"
-                                            value={newProduct.productDescription}
-                                            onChange={handleInputChange}
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label>Price</label>
-                                        <input
+                                            id='smaller-field'
+                                            className="new-product-form-field"
                                             type="number"
                                             name="productPrice"
                                             value={newProduct.productPrice}
@@ -210,9 +222,11 @@ export default function ManageProducts() {
                                             required
                                         />
                                     </div>
-                                    <div className>
-                                        <label>Quantity</label>
+                                    <div className="new-product-form-row">
+                                        <label className="new-product-form-field-label">QUANTITY</label>
                                         <input
+                                            id='smaller-field'
+                                            className="new-product-form-field"
                                             type="number"
                                             name="productQuantity"
                                             value={newProduct.productQuantity}
@@ -221,9 +235,16 @@ export default function ManageProducts() {
                                             required
                                         />
                                     </div>
-                                    <div className>
-                                        <label>Category</label>
+                                    </div>
+                                </div>
+                                
+                                <div className="product-form">
+                                    
+                                    
+                                    <div className="new-product-form-row">
+                                        <label className="new-product-form-field-label">CATEGORY</label>
                                         <select
+                                            className="new-product-form-field"
                                             name="productType"
                                             value={newProduct.productType}
                                             onChange={handleInputChange}
@@ -236,9 +257,11 @@ export default function ManageProducts() {
                                             <option value="5">Meat</option>
                                         </select>
                                     </div>
-                                    <div className>
-                                        <label>Image URL</label>
+                                    <div className="new-product-form-row">
+                                        <label className="new-product-form-field-label">IMAGE URL</label>
                                         <input
+                                            id="image-form-field"
+                                            className="new-product-form-field"
                                             type="text"
                                             name="productImage"
                                             value={newProduct.productImage}
@@ -246,11 +269,24 @@ export default function ManageProducts() {
                                             placeholder="https://example.com/image.jpg"
                                         />
                                     </div>
+                                    <div className="new-product-form-row">
+                                        <label className="new-product-form-field-label">DESCRIPTION</label>
+                                        <textarea
+                                            id="form-field-width"
+                                            className="new-product-form-field"
+                                            name="productDescription"
+                                            value={newProduct.productDescription}
+                                            onChange={handleInputChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="new-product-form-footer">
                                     <button 
                                         onClick={handleAddProduct}
                                         className="submit-product-btn"
                                     >
-                                        Save Product
+                                        ADD PRODUCT
                                     </button>
                                 </div>
                             </div>
@@ -270,6 +306,7 @@ export default function ManageProducts() {
                     ))
                 )}
             </div>
+            <Footer />
         </div>
     );
 }

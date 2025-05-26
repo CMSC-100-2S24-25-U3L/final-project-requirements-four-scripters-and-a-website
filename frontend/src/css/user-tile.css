@@ -6,14 +6,40 @@
     padding: 1rem;
     box-sizing: border-box;
     border: 1px solid #e0e0e0; 
-    border-top-left-radius: 55px; 
-    border-bottom-left-radius: 55px; 
+    border-top-left-radius: 100px; 
+    border-bottom-left-radius: 100px; 
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
-    height: 111px; 
+    height: 120px; 
     transition: transform 0.4s ease-out, box-shadow 0.4s ease-out, background-color 0.2s ease; 
     width: 400px;
     margin-left: 30px;
+}
+
+.usertile-footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.usertile-delete-button {
+    background-color: rgb(214, 15, 15);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    height: 21px;
+}
+
+.usertile-delete-button:hover {
+    background-color:  rgb(225, 0, 0);;
+}
+
+.usertile-delete-icon {
+    color: #ececec;
+    align-self: center;
 }
 
 .user-tile:hover {
@@ -26,8 +52,10 @@
     width: 85px;
     height: 85px;
     border-radius: 500px;
-    background-color: #4C7C2F;
+    background-color: #5f993b;
+    color:#4C7C2F;
     margin-right: 20px;
+    margin-left: 4px;
 }
 
 

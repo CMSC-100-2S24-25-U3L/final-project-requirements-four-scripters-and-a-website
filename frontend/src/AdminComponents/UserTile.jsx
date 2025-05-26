@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trash } from 'lucide-react';
+import { Trash, CircleUserRound } from 'lucide-react';
 import '../css/user-tile.css';
 
 export default function UserTile ({ 
@@ -11,7 +11,7 @@ export default function UserTile ({
 }) {
     return (
         <div className="user-tile">
-            <div className="avatar"></div>
+            <CircleUserRound className="avatar"/>
             <div className="user-column">
                 <div className="user-info">
                     <div className="user-details">
@@ -28,14 +28,16 @@ export default function UserTile ({
                     </div>
                 </div>
                 <hr className="user-divider" />
-                <div>
+                <div className='usertile-footer'>
                     <div className="user-type">{userType?.toUpperCase() || 'CUSTOMER'}</div>
                     {onDelete && (
                         <button 
+                            className = "usertile-delete-button"
                             onClick={onDelete} 
                             title="Delete user"
                         >
-                            <Trash size={18} />
+                            <Trash size={18} className="usertile-delete-icon"/>
+                            
                         </button>
                     )}
                 </div>

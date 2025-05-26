@@ -6,6 +6,7 @@ import '../css/manage-users.css';
 import { useState, useEffect } from "react";
 import { useAuth } from '../context/AuthContext'; // for getting current logged-in user
 import { toast } from 'react-toastify'; // for showing error/success messages
+import Footer from '../components/Footer';
 
 const API_BASE_URL = 'http://localhost:3000';
 
@@ -86,7 +87,11 @@ export default function ManageUsers() {
     return (
         <div>
             <AdminHeader />
-            <Filter />
+            <div className="manage-products-header">
+                <h1 className="Header">Manage Products</h1>
+                <hr className="divider" />
+            </div>
+           {/*  <Filter /> */}
             <div className="admin-content-row">
                 <UsersSummary 
                     totalCustomers={usersList.filter(u => u.userType === 'customer').length}
@@ -109,6 +114,7 @@ export default function ManageUsers() {
                     )}
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }
