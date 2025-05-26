@@ -2,7 +2,7 @@ import express from "express";
 // import all controller functions from the controller file
 
 // auth controller
-import { signUpUser, signInUser, authenticateUser } from "./controllers/authController.js";
+import { signUpUser, signInUser, authenticateUser, authorizeMerchant } from "./controllers/authController.js";
 
 // user controller
 import {
@@ -28,7 +28,9 @@ import {
   saveOrderTransaction,
   getOrderTransaction,
   getOrdersByUser,
-  cancelOrder
+  cancelOrder,
+  getAllOrders,
+  updateOrderTransaction
 } from "./controllers/orderTransactionController.js" // import controller functions
 
 
@@ -62,7 +64,9 @@ router.delete('/products/:productID', authenticateUser, removeProduct); // delet
 
 // order routes
 router.post('/orders', authenticateUser, saveOrderTransaction); // create new order
+router.get('/orders/all', authenticateUser, authorizeMerchant, getAllOrders);// get all orders (admin)
 router.get('/orders/:transactionID', authenticateUser, getOrderTransaction); // get order by transaction id
+router.put('/orders/:transactionID/update', authenticateUser, updateOrderTransaction); // update order status (admin)
 router.get('/orders', authenticateUser, getOrdersByUser); // get all orders of a user
 router.put('/orders/:transactionID/cancel', authenticateUser, cancelOrder); // cancel order
 

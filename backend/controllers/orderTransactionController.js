@@ -1,6 +1,7 @@
 
 import OrderTransaction from "../models/OrderTransaction.js";
 import Product from "../models/Product.js";
+import User from '../models/User.js';
 import mongoose from "mongoose";
 
 export const saveOrderTransaction = async (req, res) => {
@@ -48,26 +49,39 @@ export const saveOrderTransaction = async (req, res) => {
 };
 
 export const updateOrderTransaction = async (req, res) => {
+  const { transactionID } = req.params;
+  const { orderStatus } = req.body;
+
   try {
-    const { transactionID } = req.params;
-    const { orderStatus } = req.body;
-    // validate order status
+    // Validate order status
     if (![0, 1, 2].includes(orderStatus)) {
       return res.status(400).json({ error: 'Invalid orderStatus value' });
     }
-    // update order in database
-    const updatedOrder = await OrderTransaction.findOneAndUpdate(
-      { transactionID },
-      { $set: { orderStatus } },
-      { new: true, runValidators: true }
-    );
 
-    if (!updatedOrder) {
-      return res.status(404).json({ error: 'Order transaction not found' });
+    // Find the order with products populated (if needed)
+    const order = await OrderTransaction.findById(transactionID).populate('products.productID');
+    if (!order) return res.status(404).json({ error: 'Order transaction not found' });
+
+    // Handle side effects depending on status change
+    if (order.orderStatus !== orderStatus) {
+      if (orderStatus === 2) { // cancelled
+        for (const item of order.products) {
+          const product = await Product.findById(item.productID._id);
+          if (product) {
+            product.productQuantity += item.quantity;
+            await product.save();
+          }
+        }
+      }
     }
-    // return updated order
-    res.json(updatedOrder);
+
+    // Update the order status
+    order.orderStatus = orderStatus;
+    await order.save();
+
+    res.json(order);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Server error during order update' });
   }
 };
@@ -150,8 +164,33 @@ export const cancelOrder = async (req, res) => {
   }
 };
 
+// Used in admin manage orders to display all orders
+export const getAllOrders = async (req, res) => {
+  try {
+    //  Populate the productID field inside each product
+    const orders = await OrderTransaction.find().populate('products.productID');
 
+    //  Append user info as before
+    const ordersWithUserInfo = await Promise.all(
+      orders.map(async (order) => {
+        const user = await User.findOne({ email: order.email }).select('firstName lastName email');
+        return {
+          ...order.toObject(),
+          user: user ? {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+          } : null
+        };
+      })
+    );
 
+    res.status(200).json(ordersWithUserInfo);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to fetch orders with user info' });
+  }
+};
 
 
 

@@ -26,7 +26,7 @@ const OrderService = {
 
     // Not used yet
     updateOrder: async (transactionID, orderStatus) => {
-        const res = await axios.put(`${BASE_URL}/${transactionID}`, { orderStatus }, getAuthHeader());
+        const res = await axios.put(`${BASE_URL}/${transactionID}/update`, { orderStatus }, getAuthHeader());
         return res.data;
     },
 
@@ -48,11 +48,12 @@ const OrderService = {
         return res.data;
     },
 
-    // Not used yet
-    getOrdersWithProducts: async () => {
-        const res = await axios.post(`${BASE_URL}/with-products`, {}, getAuthHeader());
+    // For fetching all orders (for admin/manager)
+    getAllOrders: async () => {
+        const res = await axios.get(`${BASE_URL}/all`, getAuthHeader());
         return res.data;
-    }
+    },
+
 };
 
 export default OrderService;

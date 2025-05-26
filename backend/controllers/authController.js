@@ -174,3 +174,12 @@ export const authenticateUser = async (req, res, next) => {
     res.status(401).json({ error: 'Please authenticate' });
   }
 };
+
+export const authorizeMerchant = (req, res, next) => {
+  // Assuming authenticateUser sets req.user
+  if (req.user && req.user.userType === 'merchant') {
+    next();
+  } else {
+    res.status(403).json({ message: 'Access denied: merchant only.' });
+  }
+};
