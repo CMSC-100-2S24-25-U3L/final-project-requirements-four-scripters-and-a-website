@@ -33,7 +33,7 @@ export default function AdminHeader() {
           <span className='admin-icon-text'>MANAGE ORDERS</span>
         </Link>
         
-        <Link to="/sales-report" className="admin-nav-link">
+        <Link to="/admin-dashboard" className="admin-nav-link">
           <ChartBar size={18} className='admin-icon'/>
           <span className='admin-icon-text'>SALES REPORTS</span>
         </Link>
