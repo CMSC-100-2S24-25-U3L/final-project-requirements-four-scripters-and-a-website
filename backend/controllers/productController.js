@@ -22,24 +22,48 @@ export const saveProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { productID } = req.params;
-    const { productQuantity } = req.body;
+    const { 
+      productName,
+      productDescription,
+      productPrice,
+      productType,
+      productQuantity,
+      productImage
+    } = req.body;
 
-    // check if the quantity is defined or if there remains at least 1 product
-    if (productQuantity === undefined || productQuantity < 0) {
-      return res.status(400).json({ error: 'Invalid or missing productQuantity' });
+    // validate required fields
+    if (!productName || !productDescription) {
+      return res.status(400).json({ error: 'Product name and description are required' });
     }
 
-    // update product in database
-    const updatedProduct = await Product.findOneAndUpdate(
-      { productID },
-      { $set: { productQuantity } },
+    if (productPrice <= 0) {
+      return res.status(400).json({ error: 'Price must be greater than 0' });
+    }
+
+    if (productQuantity < 0) {
+      return res.status(400).json({ error: 'Quantity cannot be negative' });
+    }
+
+    // update all product fields
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productID,
+      {
+        $set: {
+          productName,
+          productDescription,
+          productPrice,
+          productType,
+          productQuantity,
+          productImage
+        }
+      },
       { new: true, runValidators: true }
     );
 
     if (!updatedProduct) {
       return res.status(404).json({ error: 'Product not found' });
     }
-    // return updated product
+
     res.json(updatedProduct);
   } catch (error) {
     res.status(500).json({ error: 'Server error during product update' });
@@ -52,7 +76,7 @@ export const removeProduct = async (req, res) => {
     const { productID } = req.params;
 
     // delete product from database
-    const deletedProduct = await Product.findOneAndDelete({ productID });
+    const deletedProduct = await Product.findByIdAndDelete(productID);
     if (!deletedProduct) {
       return res.status(404).json({ error: 'Product not found' });
     }
