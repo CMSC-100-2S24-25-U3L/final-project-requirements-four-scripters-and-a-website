@@ -15,7 +15,7 @@
     flex-wrap: wrap;
     flex-direction: row;
     width: 100%;
-    height: 56;
+    height: 56px;
     justify-content: space-between;
     align-items: center;
 }
@@ -38,7 +38,6 @@
 
 .logo-container {
     animation: fadeIn 1s ease-in;
-    /* margin-top: 200px; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -66,9 +65,10 @@
 .harvest-desc {
     font-size: 25px;
     font-family: 'Open Sans';
-    color: rgb(248, 249, 250);
+    color: #000000;
     margin-left: 100px;
     margin-right: 100px;
+    text-align: justify;
 }
 
 .about-us-container {
@@ -76,16 +76,215 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.space {
-    height: 450px;
+    background-color: #ffffff;
+    padding: 100px 0px;
 }
 
 .about-us-header {
-    font-size: 35px;
+    font-size: 60px;
     font-family: 'Open Sans';
     text-align: center;
     font-weight: bold;
-    color: rgb(248, 249, 250);
+    color: #000000;
+}
+
+.what-we-do-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 100px 100px;
+    background-color: #ffffff;
+    gap: 100px;
+    flex-wrap: wrap;
+}
+
+.what-we-do-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.what-we-do-header {
+    font-size: 70px;
+    font-family: 'Open Sans';
+    font-weight: 700;
+    color: #000000;
+}
+
+.what-we-do-right {
+    flex: 1.5;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 150px 150px;
+    align-items: center;
+    justify-items: center;
+    margin-right: 2%;
+}
+
+.offer-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-radius: 16px;
+    padding: 60px;
+    width: 300px;
+    height: 350px;
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.offer-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.offer-item:hover.tile-green {
+    background-color: #5A8C38;
+}
+
+.offer-item:hover.tile-yellow {
+    background-color: #FAB733;  
+}
+
+.tile-green {
+    background-color: #4C7C2F;
+}
+
+.tile-yellow {
+    background-color: #F89E1B;
+}
+
+.offer-icon {
+    width: 145px;
+    height: 160px;
+    margin-bottom: 5px;
+}
+
+.offer-icon-simple {
+    width: 220px;
+    height: 165px;
+    margin-bottom: 5px;
+}
+
+.offer-icon-cod {
+    width: 200px;
+    height: 165px;
+    margin-bottom: 5px;
+}
+
+.offer-title {
+    font-family: 'Open Sans';
+    font-weight: 600;
+    color: #000000;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.flip-card {
+    perspective: 1000px;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    border-radius: 16px; 
+}
+
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+.flip-card-back {
+    background-color: #2E7D32; 
+    color: white;
+    transform: rotateY(180deg);
+    font-size: 25px;
+    font-weight: 600;
+    padding: 30px;
+    text-align: center;
+    user-select: none;
+}
+
+.tile-green .flip-card-back {
+    background-color: #4C7C2F;
+}
+
+.tile-yellow .flip-card-back {
+    background-color: #F89E1B;
+}
+
+
+
+.why-use-container {
+    background-color: #ffffff;
+    padding: 50px 90px;
+    text-align: center;
+}
+
+.why-use-header {
+    font-size: 60px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 50px;
+}
+
+.why-use-list {
+    display: flex;
+    justify-content: center;
+    gap: 70px;
+    flex-wrap: wrap;
+}
+
+.why-use-item {
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.why-use-icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.why-use-text h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #4C7C2F;
+}
+
+.why-use-text p {
+    font-size: 17px;
+    color: #333333;
+    line-height: 1.4;
 }
