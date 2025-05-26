@@ -1,8 +1,14 @@
-// src/components/UserTile.jsx
 import React from 'react';
+import { Trash } from 'lucide-react';
 import '../css/user-tile.css';
 
-export default function UserTile ({ firstName, lastName, middleInitial, userType }) {
+export default function UserTile ({ 
+    firstName, 
+    lastName, 
+    middleInitial, 
+    userType,
+    onDelete 
+}) {
     return (
         <div className="user-tile">
             <div className="avatar"></div>
@@ -22,8 +28,16 @@ export default function UserTile ({ firstName, lastName, middleInitial, userType
                     </div>
                 </div>
                 <hr className="user-divider" />
-                <div className="type-container">
-                    <div className="user-type">CUSTOMER</div>
+                <div>
+                    <div className="user-type">{userType?.toUpperCase() || 'CUSTOMER'}</div>
+                    {onDelete && (
+                        <button 
+                            onClick={onDelete} 
+                            title="Delete user"
+                        >
+                            <Trash size={18} />
+                        </button>
+                    )}
                 </div>
             </div>
         </div>
