@@ -20,6 +20,7 @@ export default function AdminDashboard() {
     const [totalProducts, setTotalProducts] = useState(0);
     const [soldProducts, setSoldProducts] = useState(0);
     const [remainingProducts, setRemainingProducts] = useState(0);
+    const [pendingProducts, setPendingProducts] = useState(0);
     const { user } = useAuth();
 
     // reuse the authFetch from ManageUsers
@@ -77,6 +78,7 @@ export default function AdminDashboard() {
                 const productStats = {};
 
                 let totalSoldProducts = 0;
+                let pendingProducts = 0;
 
                 // First calculate all order statistics
                 ordersData.forEach(order => {
@@ -87,9 +89,13 @@ export default function AdminDashboard() {
 
                         if (order.orderStatus === 1) { // completed
                             totalSoldProducts += quantity;
+                        } else if (order.orderStatus === 0) { // pending
+                            pendingProducts += quantity;  // NEW
                         }
                     });
                 });
+
+                setPendingProducts(pendingProducts);
 
                 // Then calculate completed order statistics for top products
                 completedOrders.forEach(order => {
@@ -149,9 +155,9 @@ export default function AdminDashboard() {
                         return sum + (Number(product.productQuantity) || 0);
                     }, 0);
                 }
-                setRemainingProducts(totalRemaining);
+                setRemainingProducts(totalRemaining + pendingProducts);
 
-                setTotalProducts(totalRemaining + totalSoldProducts);
+                setTotalProducts(totalRemaining + totalSoldProducts + pendingProducts);
 
                 // Set top products by quantity (from completed orders)
                 setTopProducts(

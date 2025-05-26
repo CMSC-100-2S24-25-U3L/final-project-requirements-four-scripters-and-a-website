@@ -2,8 +2,19 @@ import Logo from '../assets/harvest-logo-white.png';
 import { ShoppingBag, Receipt, ChartBar, Users, LogOut} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import '../css/admin-header.css';
+import { useAuth } from '../context/AuthContext';
+import ConfirmationModal from '../components/ConfirmationModal'; 
+import React, { useState } from 'react';
 
 export default function AdminHeader() {
+  const { logout } = useAuth();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    window.location.href = '/'; // Redirect to home 
+  };
+
   return (
     <header className="admin-header">
       <div className="admin-logo-container">
@@ -32,10 +43,21 @@ export default function AdminHeader() {
           <span className='admin-icon-text'>MANAGE USERS</span>
         </Link>
 
-        <button  className="admin-nav-link" id="admin-view-profile"> 
+        <button  className="admin-nav-link" id="admin-view-profile" onClick={() => setShowLogoutModal(true)}> 
           <LogOut size={18} className='admin-icon'/>
           <span className='admin-icon-text' >LOG OUT</span>
         </button>
+
+        {showLogoutModal && (
+          <ConfirmationModal
+            title="Confirm Logout"
+            message="Are you sure you want to logout?"
+            confirmText="Logout"
+            cancelText="Cancel"
+            onConfirm={handleLogout}
+            onCancel={() => setShowLogoutModal(false)}
+          />
+        )}
       </div>
     </header>
   );
