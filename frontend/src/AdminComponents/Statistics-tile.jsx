@@ -1,30 +1,38 @@
 import '../css/stat-tile.css';
 
-export default function StatisticsTile({title, ordersValue, cancelledValue, completedValue}) {
+export default function StatisticsTile({ 
+    title = "ORDER STATISTICS",
+    pendingValue = 0,
+    cancelledValue = 0,
+    completedValue = 0,
+    customLabels = {
+        pending: "NO. OF PENDING ORDERS",
+        cancelled: "NO. OF CANCELLED ORDERS",
+        completed: "NO. OF COMPLETED ORDERS"
+    }
+}) {
     return (
-            <div className="content">
+        <div className="content">
+            <h2 className="stat-title">{title}</h2>
 
-                <h2 className="stat-title">ORDER STATISTICS</h2>
-
-                <div className='stat-row'>
-                    <p className="stat-label">NO. OF PENDING ORDERS</p>
-                    <p className="stat-value">NA</p>
-                </div>
-
-                <hr className="stat-divider"></hr>
-
-                <div className='stat-row'>
-                    <p className="stat-label">NO. OF CANCELLED ORDERS</p>
-                    <p className="stat-value"></p>
-                </div>
-
-                <hr className="stat-divider"></hr>
-
-                <div className='stat-row'>
-                    <p className="stat-label">NO. OF COMPLETED ORDERS</p>
-                    <p className="stat-value"></p>
-                </div>
-
+            <div className='stat-row'>
+                <p className="stat-label">{customLabels.pending}</p>
+                <p className="stat-value">{pendingValue}</p>
             </div>
+
+            <hr className="stat-divider"></hr>
+
+            <div className='stat-row'>
+                <p className="stat-label">{customLabels.cancelled}</p>
+                <p className="stat-value">{cancelledValue}</p>
+            </div>
+
+            <hr className="stat-divider"></hr>
+
+            <div className='stat-row'>
+                <p className="stat-label">{customLabels.completed}</p>
+                <p className="stat-value">{completedValue}</p>
+            </div>
+        </div>
     )
 }
