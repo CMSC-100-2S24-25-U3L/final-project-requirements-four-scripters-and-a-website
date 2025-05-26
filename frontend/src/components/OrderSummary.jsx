@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'; 
+
 export default function OrderSummary({ subtotal, shippingFee, total, onCheckout, submitting}) {
   return (
     <div className="order-summary">
@@ -24,7 +26,10 @@ export default function OrderSummary({ subtotal, shippingFee, total, onCheckout,
       </div>
 
       <button className="checkout-btn" onClick={onCheckout} disabled={submitting}>PROCEED TO CHECKOUT</button>
-      <button className="continue-shopping-btn">Continue Shopping</button>
+      {/* <button className="continue-shopping-btn">Continue Shopping</button> */}
+      <Link to="/home-page" className="continue-shopping-btn">
+        <span>Continue Shopping</span>
+      </Link>
     </div>
   );
 }

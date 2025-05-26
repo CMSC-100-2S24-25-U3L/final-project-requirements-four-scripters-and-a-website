@@ -104,24 +104,25 @@ function SplashPage(props) {
                 </div>
                 <div className="what-we-do-right">
                     {offers.map(({ id, img, alt, title, description }) => (
-                        <div 
-                            key={id} 
-                            className={`offer-item flip-card ${id === 'connect' || id === 'cod' ? 'tile-yellow' : 'tile-green'} ${flippedTiles[id] ? 'flipped' : ''}`} 
-                            onClick={() => toggleFlip(id)}
+                        <div
+                        key={id}
+                        className={`offer-item flip-card ${id === 'connect' || id === 'cod' ? 'tile-yellow' : 'tile-green'} ${flippedTiles[id] ? 'flipped' : ''}`}
+                        onMouseEnter={() => setFlippedTiles(prev => ({ ...prev, [id]: true }))}
+                        onMouseLeave={() => setFlippedTiles(prev => ({ ...prev, [id]: false }))}
                         >
-                            <div className="flip-card-inner">
-                                <div className="flip-card-front">
-                                    <img 
-                                        src={img} 
-                                        alt={alt} 
-                                        className={`offer-icon${id === 'simple' ? '-simple' : id === 'cod' ? '-cod' : ''}`} 
-                                    />
-                                    <p className="offer-title">{title}</p>
-                                </div>
-                                <div className="flip-card-back">
-                                    <p>{description}</p>
-                                </div>
+                        <div className="flip-card-inner">
+                            <div className="flip-card-front">
+                            <img
+                                src={img}
+                                alt={alt}
+                                className={`offer-icon${id === 'simple' ? '-simple' : id === 'cod' ? '-cod' : ''}`}
+                            />
+                            <p className="offer-title">{title}</p>
                             </div>
+                            <div className="flip-card-back">
+                            <p>{description}</p>
+                            </div>
+                        </div>
                         </div>
                     ))}
                 </div>
