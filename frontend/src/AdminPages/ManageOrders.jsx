@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import OrderService from '../services/OrderService'; // Adjust path as needed
+import OrderService from '../services/OrderService'; 
 import AdminHeader from "../AdminComponents/AdminHeader";
 import Footer from "../components/Footer";
 import '../css/ManageOrder.css';
+import ConfirmationModal from "../components/ConfirmationModal";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ManageOrders() {
   const [orders, setOrders] = useState([]);
@@ -11,6 +14,9 @@ export default function ManageOrders() {
   const [activeFilter, setActiveFilter] = useState('ALL ORDERS');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [confirmationOrder, setConfirmationOrder] = useState(null);
+  const [newStatus, setNewStatus] = useState(null);       
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -58,6 +64,40 @@ export default function ManageOrders() {
 
     fetchOrders();
   }, []);
+
+    const handleOpenModal = (order, status) => {
+    setConfirmationOrder(order);   // separate from selectedOrder used by details modal
+    setNewStatus(status);
+    setShowModal(true);
+    };
+
+    const handleConfirmUpdate = async () => {
+    try {
+        await OrderService.updateOrder(confirmationOrder.transactionId, newStatus);
+
+        setOrders(prevOrders =>
+        prevOrders.map(order =>
+            order._id === confirmationOrder._id
+            ? { ...order, orderStatus: newStatus }
+            : order
+        )
+        );
+
+        toast.success("Order status updated successfully!");
+        setShowModal(false);
+        setConfirmationOrder(null);
+        setNewStatus(null);
+    } catch (error) {
+        console.error('Failed to update order status:', error);
+        toast.error("Failed to update order status. Please try again.");
+    }
+    };
+
+    const handleCancel = () => {
+    setShowModal(false);
+    setSelectedOrder(null);
+    setNewStatus(null);
+    };
 
 
     const getStatusText = (status) => {
@@ -118,23 +158,6 @@ export default function ManageOrders() {
     setSelectedOrder(null);
   };
 
-  // Handle status update button clicks
-  const handleStatusChange = async (orderId, newStatus) => {
-    try {
-      // Optional: You can set loading here for button feedback
-      await OrderService.updateOrder(orderId, newStatus); 
-
-      // Update local state
-      setOrders(prevOrders =>
-        prevOrders.map(order =>
-          order._id === orderId ? { ...order, orderStatus: newStatus } : order
-        )
-      );
-    } catch (error) {
-      console.error('Failed to update order status:', error);
-      alert('Failed to update order status. Please try again.');
-    }
-  };
 
   return (
     <div className="admin-dashboard">
@@ -247,18 +270,25 @@ export default function ManageOrders() {
                         VIEW DETAILS
                     </button>
                     <button
-                        onClick={() => handleStatusChange(order._id, 2)}
-                        disabled={order.orderStatus === 1 || order.orderStatus === 2}
-                        className="admin-btn admin-btn-decline"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenModal(order, 2); // cancel
+                    }}
+                    disabled={order.orderStatus === 1 || order.orderStatus === 2}
+                    className="admin-btn admin-btn-decline"
                     >
-                        DECLINE
+                    DECLINE
                     </button>
+
                     <button
-                        onClick={() => handleStatusChange(order._id, 1)}
-                        disabled={order.orderStatus === 1 || order.orderStatus === 2}
-                        className="admin-btn admin-btn-accept"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenModal(order, 1); // accept
+                    }}
+                    disabled={order.orderStatus === 1 || order.orderStatus === 2}
+                    className="admin-btn admin-btn-accept"
                     >
-                        ACCEPT
+                    ACCEPT
                     </button>
                 </div>
             </div>
@@ -274,14 +304,14 @@ export default function ManageOrders() {
             <div className="admin-modal-overlay" onClick={closeOrderDetails}>
                 <div
                 className="admin-modal-content"
-                onClick={(e) => e.stopPropagation()} // prevent overlay close when clicking modal content
+                onClick={(e) => e.stopPropagation()}
                 >
                 <div className="admin-modal-header">
                     <h2>Order Details</h2>
                     <button
-                    className="admin-close-btn" // keep your class name as requested
+                    className="admin-close-btn" 
                     onClick={(e) => {
-                        e.stopPropagation(); // stop propagation to avoid triggering overlay close
+                        e.stopPropagation(); 
                         closeOrderDetails();
                     }}
                     aria-label="Close modal"
@@ -345,6 +375,27 @@ export default function ManageOrders() {
                 </div>
             </div>
             )}
+
+
+            {showModal && (
+            <ConfirmationModal
+                isOpen={showModal}
+                title="Confirm Status Update"
+                message={`Are you sure you want to change the status of this order to ${getStatusText(newStatus)}?`}
+                onConfirm={handleConfirmUpdate}
+                onCancel={handleCancel}
+            />
+            )}
+            <ToastContainer 
+                position="top-right" 
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
     </div>
   );
 }
