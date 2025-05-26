@@ -19,6 +19,7 @@ export default function AdminDashboard() {
     const [productStatistics, setProductStatistics] = useState([]);
     const [totalProducts, setTotalProducts] = useState(0);
     const [soldProducts, setSoldProducts] = useState(0);
+    const [remainingProducts, setRemainingProducts] = useState(0);
     const { user } = useAuth();
 
     // reuse the authFetch from ManageUsers
@@ -51,138 +52,149 @@ export default function AdminDashboard() {
     };
 
     useEffect(() => {
-    const fetchData = async () => {
-        try {
-            setLoading(true);
-            setError(null);
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                setError(null);
 
-            // fetch orders
-            const ordersResponse = await OrderService.getAllOrders();
-            const ordersData = Array.isArray(ordersResponse.orders)
-                ? ordersResponse.orders
-                : Array.isArray(ordersResponse)
-                    ? ordersResponse
-                    : [];
-            setOrders(ordersData);
+                // fetch orders
+                const ordersResponse = await OrderService.getAllOrders();
+                const ordersData = Array.isArray(ordersResponse.orders)
+                    ? ordersResponse.orders
+                    : Array.isArray(ordersResponse)
+                        ? ordersResponse
+                        : [];
+                setOrders(ordersData);
 
-            // Filter completed orders
-            const completedOrders = ordersData.filter(order => order.orderStatus === 1);
+                // Filter completed orders
+                const completedOrders = ordersData.filter(order => order.orderStatus === 1);
 
-            // calculate top products by quantity (from completed orders only)
-            const productCounts = {};
-            // calculate top products by revenue (from completed orders only)
-            const productRevenue = {};
-            // calculate product statistics (from all orders)
-            const productStats = {};
+                // calculate top products by quantity (from completed orders only)
+                const productCounts = {};
+                // calculate top products by revenue (from completed orders only)
+                const productRevenue = {};
+                // calculate product statistics (from all orders)
+                const productStats = {};
 
-            let totalProductQuantity = 0;
-            let totalSoldProducts = 0;
+                let totalSoldProducts = 0;
 
-            // First calculate all order statistics
-            ordersData.forEach(order => {
-                if (!order.products || !Array.isArray(order.products)) return;
+                // First calculate all order statistics
+                ordersData.forEach(order => {
+                    if (!order.products || !Array.isArray(order.products)) return;
 
-                order.products.forEach(product => {
-                    const quantity = Number(product.quantity) || 0;
-                    totalProductQuantity += quantity;
+                    order.products.forEach(product => {
+                        const quantity = Number(product.quantity) || 0;
 
-                    if (order.orderStatus === 1) { // completed
-                        totalSoldProducts += quantity;
-                    }
+                        if (order.orderStatus === 1) { // completed
+                            totalSoldProducts += quantity;
+                        }
+                    });
                 });
-            });
 
-            // Then calculate completed order statistics for top products
-            completedOrders.forEach(order => {
-                if (!order.products || !Array.isArray(order.products)) return;
+                // Then calculate completed order statistics for top products
+                completedOrders.forEach(order => {
+                    if (!order.products || !Array.isArray(order.products)) return;
 
-                order.products.forEach(product => {
-                    if (!product.productID) return;
+                    order.products.forEach(product => {
+                        if (!product.productID) return;
 
-                    const productName = product.productID.productName || 'Unknown Product';
-                    const quantity = Number(product.quantity) || 0;
-                    const price = Number(product.productID.productPrice) || 0;
+                        const productName = product.productID.productName || 'Unknown Product';
+                        const quantity = Number(product.quantity) || 0;
+                        const price = Number(product.productID.productPrice) || 0;
 
-                    // Count by quantity (completed orders only)
-                    productCounts[productName] = (productCounts[productName] || 0) + quantity;
+                        // Count by quantity (completed orders only)
+                        productCounts[productName] = (productCounts[productName] || 0) + quantity;
 
-                    // Calculate revenue (completed orders only)
-                    productRevenue[productName] = (productRevenue[productName] || 0) + (quantity * price);
+                        // Calculate revenue (completed orders only)
+                        productRevenue[productName] = (productRevenue[productName] || 0) + (quantity * price);
+                    });
                 });
-            });
 
-            // Calculate statistics for all products (all order statuses)
-            ordersData.forEach(order => {
-                if (!order.products || !Array.isArray(order.products)) return;
+                // Calculate statistics for all products (all order statuses)
+                ordersData.forEach(order => {
+                    if (!order.products || !Array.isArray(order.products)) return;
 
-                order.products.forEach(product => {
-                    if (!product.productID) return;
+                    order.products.forEach(product => {
+                        if (!product.productID) return;
 
-                    const productId = product.productID._id || product.productID;
-                    const productName = product.productID.productName || 'Unknown Product';
-                    const quantity = Number(product.quantity) || 0;
-                    const price = Number(product.productID.productPrice) || 0;
+                        const productId = product.productID._id || product.productID;
+                        const productName = product.productID.productName || 'Unknown Product';
+                        const quantity = Number(product.quantity) || 0;
+                        const price = Number(product.productID.productPrice) || 0;
 
-                    if (!productStats[productId]) {
-                        productStats[productId] = {
-                            id: productId,
-                            name: productName,
-                            totalQuantity: 0,
-                            totalRevenue: 0,
-                            price: price
-                        };
-                    }
+                        if (!productStats[productId]) {
+                            productStats[productId] = {
+                                id: productId,
+                                name: productName,
+                                totalQuantity: 0,
+                                totalRevenue: 0,
+                                price: price
+                            };
+                        }
 
-                    productStats[productId].totalQuantity += quantity;
-                    productStats[productId].totalRevenue += quantity * price;
+                        productStats[productId].totalQuantity += quantity;
+                        productStats[productId].totalRevenue += quantity * price;
+                    });
                 });
-            });
 
-            setTotalProducts(totalProductQuantity);
-            setSoldProducts(totalSoldProducts);
+                setSoldProducts(totalSoldProducts);
 
-            // Set top products by quantity (from completed orders)
-            setTopProducts(
-                Object.entries(productCounts)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 10)
-                    .map(([name, quantity]) => ({ name, quantity }))
-            );
+                // Fetch products to get remaining quantities
+                const productsResponse = await authFetch(`${API_BASE_URL}/products`);
+                const productsData = await productsResponse.json();
 
-            // Set top products by revenue (from completed orders)
-            setTopRevenueProducts(
-                Object.entries(productRevenue)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 10)
-                    .map(([name, revenue]) => ({
-                        name,
-                        revenue: revenue.toLocaleString('en-PH', {
-                            style: 'currency',
-                            currency: 'PHP',
-                            minimumFractionDigits: 2
-                        }),
-                        rawRevenue: revenue // keep raw value for sorting
-                    }))
-            );
+                let totalRemaining = 0;
+                if (Array.isArray(productsData)) {
+                    totalRemaining = productsData.reduce((sum, product) => {
+                        return sum + (Number(product.productQuantity) || 0);
+                    }, 0);
+                }
+                setRemainingProducts(totalRemaining);
 
-            setProductStatistics(Object.values(productStats));
+                setTotalProducts(totalRemaining + totalSoldProducts);
 
-            // Fetch users
-            const usersResponse = await authFetch(`${API_BASE_URL}/users`);
-            const usersData = await usersResponse.json();
-            setUsers(usersData);
+                // Set top products by quantity (from completed orders)
+                setTopProducts(
+                    Object.entries(productCounts)
+                        .sort((a, b) => b[1] - a[1])
+                        .slice(0, 10)
+                        .map(([name, quantity]) => ({ name, quantity }))
+                );
 
-        } catch (err) {
-            console.error('Error fetching data:', err);
-            setError('Failed to load dashboard data');
-            toast.error('Failed to load dashboard data');
-        } finally {
-            setLoading(false);
-        }
-    };
+                // Set top products by revenue (from completed orders)
+                setTopRevenueProducts(
+                    Object.entries(productRevenue)
+                        .sort((a, b) => b[1] - a[1])
+                        .slice(0, 10)
+                        .map(([name, revenue]) => ({
+                            name,
+                            revenue: revenue.toLocaleString('en-PH', {
+                                style: 'currency',
+                                currency: 'PHP',
+                                minimumFractionDigits: 2
+                            }),
+                            rawRevenue: revenue // keep raw value for sorting
+                        }))
+                );
 
-    fetchData();
-}, []);
+                setProductStatistics(Object.values(productStats));
+
+                // Fetch users
+                const usersResponse = await authFetch(`${API_BASE_URL}/users`);
+                const usersData = await usersResponse.json();
+                setUsers(usersData);
+
+            } catch (err) {
+                console.error('Error fetching data:', err);
+                setError('Failed to load dashboard data');
+                toast.error('Failed to load dashboard data');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     // Calculate order statistics
     const pendingOrders = orders.filter(order => order.orderStatus === 0).length;
@@ -221,11 +233,11 @@ export default function AdminDashboard() {
                             title="PRODUCT STATISTICS"
                             pendingValue={totalProducts}
                             cancelledValue={soldProducts}
-                            completedValue={productStatistics.length}
+                            completedValue={remainingProducts}
                             customLabels={{
-                                pending: "TOTAL QUANTITY",
-                                cancelled: "TOTAL SOLD",
-                                completed: "TOTAL PRODUCT TYPES"
+                                pending: "TOTAL PRODUCTS POSTED",
+                                cancelled: "TOTAL PRODUCTS SOLD",
+                                completed: "REMAINING PRODUCTS AVAILABLE"
                             }}
                         />
                     </div>
