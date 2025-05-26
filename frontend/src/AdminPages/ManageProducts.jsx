@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Footer from '../components/Footer.jsx';
 import { CircleX, CirclePlus } from "lucide-react";
+import LoadingScreen from "../components/LoadingScreen.jsx";
 
 const API_BASE_URL = 'http://localhost:3000'; 
 
@@ -156,7 +157,7 @@ export default function ManageProducts() {
         ? products 
         : products.filter(product => product.productType === productTypeMap[activeCategory]);
 
-    if (loading) return <div>Loading products...</div>;
+    if (loading) return <LoadingScreen />;
     if (error) return <div className="error-message">Error: {error}</div>;
 
     return (
@@ -306,6 +307,7 @@ export default function ManageProducts() {
                     ))
                 )}
             </div>
+            <div className="footer-spacing"></div>
             <Footer />
         </div>
     );

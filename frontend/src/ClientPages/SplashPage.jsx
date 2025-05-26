@@ -140,8 +140,8 @@ function SplashPage(props) {
                         </div>
                     ))}
                 </div>
+            <div className='footer-spacing'></div>
             </div>
-
             <Footer />
         </div>
     );

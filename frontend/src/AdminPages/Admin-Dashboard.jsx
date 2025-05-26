@@ -245,6 +245,7 @@ export default function AdminDashboard() {
                                 cancelled: "TOTAL PRODUCTS SOLD",
                                 completed: "REMAINING PRODUCTS AVAILABLE"
                             }}
+                            isOrder = {false}
                         />
                     </div>
                     <div className="square-right-tiles">
@@ -280,9 +281,12 @@ export default function AdminDashboard() {
                                 )}
                             </div>
                         </div>
-                        <div id="top-revenue-products-square-tile">
-                            <div className="text-square">
-                                <h2 className="top-products-header">
+                    </div>
+                </div>
+                <div className="under-tiles">
+                    <div id="top-revenue-products-square-tile">
+                            <div className="text-square-revenue">
+                                <h2 className="top-revenue-products-header">
                                     TOP SELLING PRODUCTS BY REVENUE
                                 </h2>
                                 <hr className="top-products-divider"></hr>
@@ -296,47 +300,57 @@ export default function AdminDashboard() {
                                     <ol className="revenue-list">
                                         {topRevenueProducts.map((product, index) => (
                                             <li key={index} className="revenue-item">
-                                                <span className="product-name">{product.name}</span>
-                                                <span className="product-revenue">{product.revenue}</span>
+                                                <span className="revenue-product-name">{product.name}</span>
+                                                <span className="revenue-product-revenue">{product.revenue}</span>
                                             </li>
                                         ))}
                                     </ol>
                                 )}
+                                <hr className="top-products-divider"></hr>
                             </div>
                         </div>
-                        <div>
-                            <h2>Product Sales Statistics</h2>
+                        <div className='product-sales-statistics-block'>
+                            <h2 className='product-sales-statistics-header'>Product Sales Statistics</h2>
 
                             {loading ? (
                                 <div>Loading product statistics...</div>
                             ) : error ? (
                                 <div className="error-message">{error}</div>
                             ) : (
-                                <div>
-                                    <div>
-                                        <div>Product Name</div>
-                                        <div>Unit Price</div>
-                                        <div>Total Sold</div>
-                                        <div>Total Revenue</div>
+                                <div className="product-sales-statistics-list">
+                                    <div className="product-sales-statistics-product-name-category">
+                                        <div>PRODUCT NAME</div>
+                                        <div>UNIT PRICE</div>
+                                        <div>TOTAL UNITS SOLD</div>
+                                        <div>TOTAL REVENUE</div>
                                     </div>
 
+                                    
+
                                     {productStatistics.map((product) => (
-                                        <div key={product.id}>
-                                            <div>{product.name}</div>
-                                            <div>
-                                                ₱{product.price.toLocaleString('en-PH', { minimumFractionDigits: 2 })}
-                                            </div>
-                                            <div>{product.totalQuantity}</div>
-                                            <div>
+                                        <div className='product-sales-statistics-data-categories' key={product.id}>
+                                            <hr className="product-sales-divider"></hr>
+                                            <div className='product-sales-statistics-product-name'>
+                                                <div className="product-sales-statistics-product-name-category">
+                                                    
+                                                <div className="product-sales-statistics-data-field" id="product-sales-name">{product.name}</div>
+                                                <div className="product-sales-statistics-data-field" id="product-sales-unit-price">
+                                                    ₱{product.price.toLocaleString('en-PH', { minimumFractionDigits: 2 })}
+                                                </div>
+                                                <div className="product-sales-statistics-data-field" id="product-sales-quantity">{product.totalQuantity}</div>
+                                                <div className="product-sales-statistics-data-field" id="product-sales-total-revenue">
                                                 ₱{product.totalRevenue.toLocaleString('en-PH', { minimumFractionDigits: 2 })}
+                                                </div>
                                             </div>
+                                            </div>
+                                            <hr className="product-sales-divider"></hr>
                                         </div>
                                     ))}
                                 </div>
                             )}
                         </div>
-                    </div>
                 </div>
+                        
                 <div className="space"></div>
             </div>
             <Footer className="footer" />

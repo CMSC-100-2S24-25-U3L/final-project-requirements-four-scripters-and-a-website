@@ -114,6 +114,7 @@ export default function ManageUsers() {
                     )}
                 </div>
             </div>
+            <div className="footer-spacing"></div>
             <Footer />
         </div>
     )

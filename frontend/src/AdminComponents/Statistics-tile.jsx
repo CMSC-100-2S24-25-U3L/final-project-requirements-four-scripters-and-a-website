@@ -9,11 +9,12 @@ export default function StatisticsTile({
         pending: "NO. OF PENDING ORDERS",
         cancelled: "NO. OF CANCELLED ORDERS",
         completed: "NO. OF COMPLETED ORDERS"
-    }
+    },
+    isOrder = true
 }) {
     return (
-        <div className="content">
-            <h2 className="stat-title">{title}</h2>
+        <div className={isOrder ? "content" : "product-content-tile"}>
+            <h2 className={isOrder ? "stat-title" : "product-content-tile-title"}>{title}</h2>
 
             <div className='stat-row'>
                 <p className="stat-label">{customLabels.pending}</p>

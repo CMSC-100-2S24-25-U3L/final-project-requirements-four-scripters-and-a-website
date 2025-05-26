@@ -1,0 +1,6 @@
+.loading-screen-container {
+    background-image: url('../assets/loading.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

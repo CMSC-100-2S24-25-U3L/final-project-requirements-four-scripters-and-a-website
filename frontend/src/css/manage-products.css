@@ -2,8 +2,8 @@
 
 .admin-products {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Two equal columns */
-    gap: 1rem; /* 40px / 16px, matches previous spacing */
+    grid-template-columns: 1fr 1fr; 
+    gap: 1rem; 
     padding: 0 20px; 
     margin-right: 70px;
     margin-left: 70px;
@@ -64,12 +64,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(93, 150, 57);
+    background-color: rgb(241, 152, 18);
     width: 40vw;
     max-width: 50vw;
     padding: 1.25rem;
     box-sizing: border-box;
-    border: 1px solid rgb(57, 93, 35);
+    
     border-radius: 0.3125rem;
     margin-bottom: 1.25rem;
     height: 156px;
@@ -113,7 +113,7 @@
 }
 
 .add-product-btn:hover {
-    background-color: rgb(93, 150, 57);;
+    background-color: rgb(93, 150, 57);
 }
 
 .new-product-form-field-label {
@@ -126,7 +126,7 @@
 .submit-product-btn {
     color:blanchedalmond;
     font-weight: bold;
-    background-color: rgb(241, 152, 18);
+    background-color: rgb(93, 150, 57);
     border: none;
     display: flex;
     align-items: center;
@@ -137,7 +137,7 @@
 }
 
 .submit-product-btn:hover {
-    background-color: rgb(248, 158, 27);
+    background-color: rgb(106, 175, 64);
 }
 
 .new-product-form-row {
