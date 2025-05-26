@@ -32,10 +32,10 @@ export default function AdminHeader() {
           <span className='admin-icon-text'>MANAGE USERS</span>
         </Link>
 
-        <Link to="/admin-profile" className="admin-nav-link" id="admin-view-profile"> 
+        <button  className="admin-nav-link" id="admin-view-profile"> 
           <LogOut size={18} className='admin-icon'/>
           <span className='admin-icon-text' >LOG OUT</span>
-        </Link>
+        </button>
       </div>
     </header>
   );
