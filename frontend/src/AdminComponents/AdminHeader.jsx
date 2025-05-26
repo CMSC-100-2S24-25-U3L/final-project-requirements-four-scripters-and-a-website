@@ -1,5 +1,5 @@
 import Logo from '../assets/harvest-logo-white.png';
-import { ShoppingBag, Receipt, ChartBar, Users, User} from 'lucide-react';
+import { ShoppingBag, Receipt, ChartBar, Users, LogOut} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import '../css/admin-header.css';
 
@@ -33,8 +33,8 @@ export default function AdminHeader() {
         </Link>
 
         <Link to="/admin-profile" className="admin-nav-link" id="admin-view-profile"> 
-          <User size={18} className='admin-icon'/>
-          <span className='admin-icon-text' >VIEW PROFILE</span>
+          <LogOut size={18} className='admin-icon'/>
+          <span className='admin-icon-text' >LOG OUT</span>
         </Link>
       </div>
     </header>

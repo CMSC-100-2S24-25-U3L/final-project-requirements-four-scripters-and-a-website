@@ -117,7 +117,7 @@ export default function ProductTile({ product, onProductUpdate, onProductDelete 
         <div className="admin-product-card">
             <div className="admin-product-image-placeholder">
                 {product.productImage && (
-                    <img src={product.productImage} alt={product.productName} />
+                    <img src={product.productImage} alt={product.productName} className="admin-product-image" />
                 )}
             </div>
             <div className="admin-product-details">
