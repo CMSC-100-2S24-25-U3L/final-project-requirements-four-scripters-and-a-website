@@ -154,7 +154,7 @@ export default function ProductTile({ product, onProductUpdate, onProductDelete 
                     <div className="admin-product-info">
                         <div className="admin-info-item">
                             <span className="admin-info-label">PRODUCT ID</span>
-                            <span className="admin-info-value">{product.productID}</span>
+                            <span className="admin-info-label" id="product-id-edit">{product.productID}</span>
                         </div>
                         <div className="admin-info-item">
                             <span className="admin-info-label">SELLING PRICE</span>
