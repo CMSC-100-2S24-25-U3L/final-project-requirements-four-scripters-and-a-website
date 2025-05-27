@@ -9,12 +9,15 @@ import ConfirmationModal from '../components/ConfirmationModal';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CartService from '../services/CartService';
+import HarvestLoadingScreen from '../components/HarvestLoadingScreen';
 
 export default function CartPage() {
   const { cartItems, updateQuantity, removeItem, clearCart, setCartItems } = useCart();
   const { user } = useAuth();
   const [submitting, setSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const subtotal = cartItems.reduce(
     (sum, item) => sum + ((item.productPrice ?? 0) * item.quantity),
@@ -27,10 +30,10 @@ export default function CartPage() {
   useEffect(() => {
     const restoreCart = async () => {
       if (!user) return;
+      setLoading(true); // start loading
       try {
         const saved = await CartService.getCart();
         if (saved?.products?.length > 0) {
-          // Convert saved cart to your context's expected format
           const restored = saved.products.map(item => ({
             productID: item.productID._id || item.productID,
             productName: item.productID.productName,
@@ -42,11 +45,15 @@ export default function CartPage() {
         }
       } catch (err) {
         console.error("Failed to restore cart:", err);
+        setError("Something went wrong while restoring the cart.");
+      } finally {
+        setLoading(false); // end loading
       }
     };
 
     restoreCart();
   }, [user]);
+
 
   useEffect(() => {
     const saveCart = async () => {
@@ -115,16 +122,20 @@ export default function CartPage() {
         <h1 className="cart-title">Your Cart ({cartItems.length})</h1>
 
         <div className="cart-content">
-          <div className="cart-items">
-            {cartItems.map((item) => (
-              <CartItem
-                key={item.productID}
-                item={item}
-                updateQuantity={updateQuantity}
-                removeItem={removeItem}
-              />
-            ))}
-          </div>
+          {cartItems.length === 0 ? (
+            <div className="empty-cart-message">Your cart is empty.</div>
+          ) : (
+            <div className="cart-items">
+              {cartItems.map((item) => (
+                <CartItem
+                  key={item.productID}
+                  item={item}
+                  updateQuantity={updateQuantity}
+                  removeItem={removeItem}
+                />
+              ))}
+            </div>
+          )}
 
           <OrderSummary
             subtotal={subtotal}

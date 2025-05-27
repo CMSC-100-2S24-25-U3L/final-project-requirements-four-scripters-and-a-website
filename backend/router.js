@@ -62,6 +62,7 @@ router.get('/users/me', authenticateUser, getCurrentUser);
 
 // product routes
 router.post('/products', authenticateUser, saveProduct); // create new product
+// router.post('/products', saveProduct); 
 router.get('/products', getAllProducts); // get all product 
 router.get('/products/:productID', getProduct); // get product by id
 router.put('/products/:productID', authenticateUser, updateProduct); // update product by id
