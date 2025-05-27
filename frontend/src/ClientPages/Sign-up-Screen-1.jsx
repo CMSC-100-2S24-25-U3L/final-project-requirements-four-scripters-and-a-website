@@ -3,6 +3,8 @@ import Image from '../assets/sign-up-img.jpg';
 import Logo from '../assets/harvest-logo-colored.png';
 import React, { useState } from 'react';
 import { useNavigate} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { CircleArrowLeft } from 'lucide-react';
 
 function SignUpScreen1() {
     const [email, setEmail] = useState('');
@@ -36,6 +38,9 @@ function SignUpScreen1() {
         <div className="sign-up-bg">
             <div className="sign-up-box">
                 <div className="sign-up-left">
+                    <Link to="/sign-in-screen">
+                        <CircleArrowLeft className="sign-in-up-back-button"/>
+                    </Link>
                     <img src={Logo} className="sign-up-logo" alt="Harvest Logo" />
                     <div className="text-content">
                         <h1 className="sign-up-title">Sign Up - Step 1</h1>
