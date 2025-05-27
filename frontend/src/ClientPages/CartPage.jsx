@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from "../components/Header";
 import { useCart } from '../context/CartContext';
 import CartItem from "../components/CartItem";
@@ -8,12 +8,13 @@ import { useAuth } from '../context/AuthContext';
 import ConfirmationModal from '../components/ConfirmationModal'; 
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CartService from '../services/CartService';
 
 export default function CartPage() {
-  const { cartItems, updateQuantity, removeItem, clearCart } = useCart();
+  const { cartItems, updateQuantity, removeItem, clearCart, setCartItems } = useCart();
   const { user } = useAuth();
   const [submitting, setSubmitting] = useState(false);
-  const [showModal, setShowModal] = useState(false); // modal state
+  const [showModal, setShowModal] = useState(false); 
 
   const subtotal = cartItems.reduce(
     (sum, item) => sum + ((item.productPrice ?? 0) * item.quantity),
@@ -21,6 +22,50 @@ export default function CartPage() {
   );
   const shippingFee = 20.00;
   const total = subtotal + shippingFee;
+
+
+  useEffect(() => {
+    const restoreCart = async () => {
+      if (!user) return;
+      try {
+        const saved = await CartService.getCart();
+        if (saved?.products?.length > 0) {
+          // Convert saved cart to your context's expected format
+          const restored = saved.products.map(item => ({
+            productID: item.productID._id || item.productID,
+            productName: item.productID.productName,
+            productPrice: item.productID.productPrice,
+            productImage: item.productID.productImage,
+            quantity: item.quantity
+          }));
+          setCartItems(restored);
+        }
+      } catch (err) {
+        console.error("Failed to restore cart:", err);
+      }
+    };
+
+    restoreCart();
+  }, [user]);
+
+  useEffect(() => {
+    const saveCart = async () => {
+      if (!user) return;
+
+      console.log("Saving cart to backend:", cartItems); // <-- Debug log
+
+      try {
+        await CartService.saveCart(cartItems.map(item => ({
+          productID: item.productID,
+          quantity: item.quantity
+        })));
+      } catch (err) {
+        console.error("Failed to save cart:", err);
+      }
+    };
+
+    saveCart();
+  }, [cartItems, user]);
 
   const handleProceedCheckout = () => {
     if (!user) {

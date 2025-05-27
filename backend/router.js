@@ -33,6 +33,11 @@ import {
   updateOrderTransaction
 } from "./controllers/orderTransactionController.js" // import controller functions
 
+import {
+  saveOrUpdateCart,
+  getCart,
+  clearCart
+} from "./controllers/cartController.js";
 
 // create a new router instance to handle routes
 const router = express.Router();  // creates a new instance of router to define the api routes
@@ -69,6 +74,11 @@ router.get('/orders/:transactionID', authenticateUser, getOrderTransaction); // 
 router.put('/orders/:transactionID/update', authenticateUser, updateOrderTransaction); // update order status (admin)
 router.get('/orders', authenticateUser, getOrdersByUser); // get all orders of a user
 router.put('/orders/:transactionID/cancel', authenticateUser, cancelOrder); // cancel order
+
+// cart routes
+router.get('/cart', authenticateUser, getCart); // get the user's cart
+router.post('/cart', authenticateUser, saveOrUpdateCart); // save or update cart
+router.delete('/cart', authenticateUser, clearCart); // clear cart
 
 // export the router to be used in the main server file
 export default router;
