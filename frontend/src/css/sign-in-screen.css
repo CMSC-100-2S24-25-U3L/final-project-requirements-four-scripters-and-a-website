@@ -12,6 +12,16 @@
     align-items: center;
 }
 
+.sign-in-up-back-button {
+    color: rgb(76, 124, 47);
+    margin-bottom: -20px;
+    margin-top: -5px;
+}
+
+.sign-in-up-back-button:hover {
+    color: rgb(248, 158, 27);
+}
+
 .box {
     background-color: rgb(248, 249, 250);
     align-items: center;

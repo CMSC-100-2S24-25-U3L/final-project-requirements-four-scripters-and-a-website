@@ -4,6 +4,8 @@ import Logo from '../assets/harvest-logo-colored.png';
 import React, { useState } from 'react';
 import { useNavigate} from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'; // import the auth context
+import { Link } from 'react-router-dom';
+import { CircleArrowLeft } from 'lucide-react';
 
 function SignInScreen() {
     const [email, setEmail] = useState('');
@@ -49,6 +51,9 @@ function SignInScreen() {
         <div className="sign-in-bg">
             <div className="sign-in-box">
                 <div className="sign-in-left">
+                    <Link to="/">
+                        <CircleArrowLeft className="sign-in-up-back-button"/>
+                    </Link>
                     <img src={Logo} className="sign-in-logo" alt="Harvest Logo" />
                     <div className="text-content">
                         <h1 className="sign-in-title">Sign in</h1>
