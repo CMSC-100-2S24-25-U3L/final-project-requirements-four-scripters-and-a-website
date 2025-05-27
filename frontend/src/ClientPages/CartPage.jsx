@@ -62,6 +62,9 @@ export default function CartPage() {
     }
   };
 
+  if (loading) return <HarvestLoadingScreen />;
+      if (error) return <div className="error-message">Error: {error}</div>;
+
   return (
     <div className="harvest-container">
       <Header />

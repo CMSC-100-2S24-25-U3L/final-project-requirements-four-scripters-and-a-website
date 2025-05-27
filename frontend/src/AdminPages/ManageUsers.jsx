@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from '../context/AuthContext'; // for getting current logged-in user
 import { toast } from 'react-toastify'; // for showing error/success messages
 import Footer from '../components/Footer';
+import HarvestLoadingScreen from "../components/HarvestLoadingScreen";
 
 const API_BASE_URL = 'http://localhost:3000';
 
@@ -81,7 +82,7 @@ export default function ManageUsers() {
         }
     };
     // loading and error states
-    if (loading) return <div>Loading users...</div>;
+    if (loading) return <HarvestLoadingScreen />;
     if (error) return <div>Error: {error}</div>;
 
     return (

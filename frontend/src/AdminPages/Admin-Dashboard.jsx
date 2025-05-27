@@ -6,6 +6,7 @@ import '../css/admin-dashboard.css';
 import OrderService from '../services/OrderService';
 import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
+import HarvestLoadingScreen from '../components/HarvestLoadingScreen';
 
 const API_BASE_URL = 'http://localhost:3000';
 
@@ -217,6 +218,9 @@ export default function AdminDashboard() {
         day: 'numeric',
         year: 'numeric'
     });
+
+    if (loading) return <HarvestLoadingScreen />;
+        if (error) return <div className="error-message">Error: {error}</div>;
 
     return (
         <div className="admin-dashboard">

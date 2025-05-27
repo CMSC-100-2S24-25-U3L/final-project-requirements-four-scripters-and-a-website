@@ -11,7 +11,6 @@ import SignInScreen from './ClientPages/Sign-in-Screen';
 import SignUpScreen2 from './ClientPages/Sign-up-Screen-2';
 import SignUpScreen1 from './ClientPages/Sign-up-Screen-1';
 import AdminDashboard from './AdminPages/Admin-Dashboard';
-import AdminProfile from './AdminPages/AdminProfile';
 import ManageProducts from './AdminPages/ManageProducts';
 import ManageOrders from './AdminPages/ManageOrders';
 import SalesReport from './AdminPages/SalesReport';
@@ -38,7 +37,7 @@ function App() {
             <Route path="/manage-orders" element={ <ProtectedRoute allowedRoles={['merchant']}> <ManageOrders /> </ProtectedRoute> } />
             <Route path="/manage-users" element={ <ProtectedRoute allowedRoles={['merchant']}> <ManageUsers /> </ProtectedRoute> } />
             <Route path="/sales-report" element={ <ProtectedRoute allowedRoles={['merchant']}> <SalesReport /> </ProtectedRoute> } />
-            <Route path="/admin-profile" element={ <ProtectedRoute allowedRoles={['merchant']}> <AdminProfile /> </ProtectedRoute> } />
+           
           </Routes>
         </Router>
       </AuthProvider>

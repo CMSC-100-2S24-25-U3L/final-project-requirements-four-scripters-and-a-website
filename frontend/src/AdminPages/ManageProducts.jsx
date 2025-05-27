@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Footer from '../components/Footer.jsx';
 import { CircleX, CirclePlus } from "lucide-react";
-import LoadingScreen from "../components/LoadingScreen.jsx";
+import LoadingScreen from "../components/HarvestLoadingScreen.jsx";
 
 const API_BASE_URL = 'http://localhost:3000'; 
 

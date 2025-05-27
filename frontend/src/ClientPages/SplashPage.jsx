@@ -12,7 +12,6 @@ import ecoFriendlyIcon from '../assets/ecoFriendly.png';
 import convenienceIcon from '../assets/convenience.png';
 import trackingIcon from '../assets/tracking.png';
 
-
 function SplashPage(props) {
     const navigate = useNavigate();
     const [flippedTiles, setFlippedTiles] = useState({});

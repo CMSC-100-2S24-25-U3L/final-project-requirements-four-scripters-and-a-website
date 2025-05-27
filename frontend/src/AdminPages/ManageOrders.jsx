@@ -6,6 +6,7 @@ import '../css/ManageOrder.css';
 import ConfirmationModal from "../components/ConfirmationModal";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import HarvestLoadingScreen from '../components/HarvestLoadingScreen';
 
 export default function ManageOrders() {
   const [orders, setOrders] = useState([]);
@@ -157,6 +158,10 @@ export default function ManageOrders() {
   const closeOrderDetails = () => {
     setSelectedOrder(null);
   };
+
+   if (loading) return <HarvestLoadingScreen />;
+          if (error) return <div className="error-message">Error: {error}</div>;
+  
 
 
   return (
