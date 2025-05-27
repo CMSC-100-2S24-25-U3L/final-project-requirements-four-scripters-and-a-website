@@ -156,3 +156,64 @@
 .admin-remove-icon:hover {
     color: #ad0b0b;
 }
+
+.admin-save-btn {
+    cursor: pointer;
+    color: rgb(93, 150, 57);
+    border: none;
+    font-weight: bold;
+    display: flex;
+    justify-content: end;
+    flex-direction: row;
+    background-color: white;
+    margin-right: -8px;
+    margin-bottom: -7px;
+}
+
+.save-edit-btn {
+    color: rgb(0, 0, 0);
+}
+
+.save-edit-btn:hover {
+    color: rgb(93, 150, 57);
+}
+
+
+#product-edit-form-field {
+    width: 50px;
+    background-color: rgb(235, 235, 235);
+    font-size: 10px;
+}
+
+#product-edit-form-field-desc {
+    background-color: rgb(235, 235, 235);
+    font-family: 'Open Sans';
+    height: 20px;
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+#product-edit-form-field-select {
+    background-color: rgb(235, 235, 235);
+    border: none;
+    border-radius: 3px;
+    color: rgb(57, 93, 35);
+    height: 15px;
+    margin-left: -10px;
+    margin-top: 1px;
+
+    font-size: 10px;
+}
+
+.new-product-form-field-title {
+    border: none;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 3px;
+    color: rgb(57, 93, 35);
+    margin-right: 7px;
+    height: 15px;
+    background-color: rgb(235, 235, 235);
+    height: 25px;
+    padding-left: 5px;
+}

@@ -1,4 +1,4 @@
-import { Trash, Edit } from 'lucide-react';
+import { Trash, Edit, CircleCheck } from 'lucide-react';
 import '../css/manage-product-tile.css';
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
@@ -127,7 +127,7 @@ export default function ProductTile({ product, onProductUpdate, onProductDelete 
                             name="productName"
                             value={editedProduct.productName || ''}
                             onChange={handleChange}
-                            className="admin-edit-input"
+                            className="new-product-form-field-title"
                         />
                     ) : (
                         <h2 className="admin-product-title">{product.productName}</h2>
@@ -135,7 +135,7 @@ export default function ProductTile({ product, onProductUpdate, onProductDelete 
                     {user?.userType === 'merchant' && (
                         <div className='admin-buttons'>
                             {isEditing ? (
-                                <button onClick={handleSave} className="admin-save-btn">Save</button>
+                                <button onClick={handleSave} className="admin-save-btn"><CircleCheck className='save-edit-btn'/></button>
                             ) : (
                                 <Edit 
                                     className="admin-edit-icon" 
@@ -164,7 +164,8 @@ export default function ProductTile({ product, onProductUpdate, onProductDelete 
                                     name="productPrice"
                                     value={editedProduct.productPrice || ''}
                                     onChange={handleChange}
-                                    className="admin-edit-input"
+                                    className="new-product-form-field"
+                                    id="product-edit-form-field"
                                     min="0.01"
                                     step="0.01"
                                 />
@@ -179,7 +180,8 @@ export default function ProductTile({ product, onProductUpdate, onProductDelete 
                                     name="productType"
                                     value={editedProduct.productType || ''}
                                     onChange={handleChange}
-                                    className="admin-edit-select"
+                                    className="new-product-form-field"
+                                    id="product-edit-form-field-select"
                                 >
                                     {Object.entries(productTypes).map(([value, label]) => (
                                         <option key={value} value={value}>{label}</option>
@@ -197,7 +199,8 @@ export default function ProductTile({ product, onProductUpdate, onProductDelete 
                                     name="productQuantity"
                                     value={editedProduct.productQuantity || ''}
                                     onChange={handleChange}
-                                    className="admin-edit-input"
+                                    className="new-product-form-field"
+                                    id="product-edit-form-field"
                                     min="0"
                                 />
                             ) : (
@@ -212,7 +215,8 @@ export default function ProductTile({ product, onProductUpdate, onProductDelete 
                                 name="productDescription"
                                 value={editedProduct.productDescription || ''}
                                 onChange={handleChange}
-                                className="admin-edit-textarea"
+                                className="new-product-form-field"
+                                id="product-edit-form-field-desc"
                             />
                         ) : (
                             <p className="admin-description-text">
