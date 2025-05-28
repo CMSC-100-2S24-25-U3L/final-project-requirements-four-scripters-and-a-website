@@ -117,8 +117,8 @@ export default function AdminDashboard() {
                     });
                 });
 
-                // Calculate statistics for all products (all order statuses)
-                ordersData.forEach(order => {
+                // Calculate statistics for all products (completed order only)
+                completedOrders.forEach(order => {
                     if (!order.products || !Array.isArray(order.products)) return;
 
                     order.products.forEach(product => {
