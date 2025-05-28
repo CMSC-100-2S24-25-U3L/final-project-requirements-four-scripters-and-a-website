@@ -68,57 +68,17 @@ export default function AdminDashboard() {
                         : [];
                 setOrders(ordersData);
 
-                // Filter completed orders
+                // Filter completed orders (status === 1)
                 const completedOrders = ordersData.filter(order => order.orderStatus === 1);
 
-                // calculate top products by quantity (from completed orders only)
+                // Initialize counters
                 const productCounts = {};
-                // calculate top products by revenue (from completed orders only)
                 const productRevenue = {};
-                // calculate product statistics (from all orders)
                 const productStats = {};
-
                 let totalSoldProducts = 0;
-                let pendingProducts = 0;
 
-                // First calculate all order statistics
-                ordersData.forEach(order => {
-                    if (!order.products || !Array.isArray(order.products)) return;
-
-                    order.products.forEach(product => {
-                        const quantity = Number(product.quantity) || 0;
-
-                        if (order.orderStatus === 1) { // completed
-                            totalSoldProducts += quantity;
-                        } else if (order.orderStatus === 0) { // pending
-                            pendingProducts += quantity;  // NEW
-                        }
-                    });
-                });
-
-                setPendingProducts(pendingProducts);
-
-                // Then calculate completed order statistics for top products
+                // Process only completed orders
                 completedOrders.forEach(order => {
-                    if (!order.products || !Array.isArray(order.products)) return;
-
-                    order.products.forEach(product => {
-                        if (!product.productID) return;
-
-                        const productName = product.productID.productName || 'Unknown Product';
-                        const quantity = Number(product.quantity) || 0;
-                        const price = Number(product.productID.productPrice) || 0;
-
-                        // Count by quantity (completed orders only)
-                        productCounts[productName] = (productCounts[productName] || 0) + quantity;
-
-                        // Calculate revenue (completed orders only)
-                        productRevenue[productName] = (productRevenue[productName] || 0) + (quantity * price);
-                    });
-                });
-
-                // Calculate statistics for all products (all order statuses)
-                ordersData.forEach(order => {
                     if (!order.products || !Array.isArray(order.products)) return;
 
                     order.products.forEach(product => {
@@ -129,6 +89,16 @@ export default function AdminDashboard() {
                         const quantity = Number(product.quantity) || 0;
                         const price = Number(product.productID.productPrice) || 0;
 
+                        // Count total sold products
+                        totalSoldProducts += quantity;
+
+                        // For top products by quantity
+                        productCounts[productName] = (productCounts[productName] || 0) + quantity;
+
+                        // For top products by revenue
+                        productRevenue[productName] = (productRevenue[productName] || 0) + (quantity * price);
+
+                        // For detailed product statistics
                         if (!productStats[productId]) {
                             productStats[productId] = {
                                 id: productId,
@@ -138,7 +108,6 @@ export default function AdminDashboard() {
                                 price: price
                             };
                         }
-
                         productStats[productId].totalQuantity += quantity;
                         productStats[productId].totalRevenue += quantity * price;
                     });
@@ -146,7 +115,7 @@ export default function AdminDashboard() {
 
                 setSoldProducts(totalSoldProducts);
 
-                // Fetch products to get remaining quantities
+                // fetch current product inventory
                 const productsResponse = await authFetch(`${API_BASE_URL}/products`);
                 const productsData = await productsResponse.json();
 
@@ -156,11 +125,12 @@ export default function AdminDashboard() {
                         return sum + (Number(product.productQuantity) || 0);
                     }, 0);
                 }
-                setRemainingProducts(totalRemaining + pendingProducts);
 
-                setTotalProducts(totalRemaining + totalSoldProducts + pendingProducts);
+                // set inventory-related values
+                setRemainingProducts(totalRemaining);
+                setTotalProducts(totalRemaining + totalSoldProducts); // only count completed sales in total
 
-                // Set top products by quantity (from completed orders)
+                // set top products by quantity
                 setTopProducts(
                     Object.entries(productCounts)
                         .sort((a, b) => b[1] - a[1])
@@ -168,7 +138,7 @@ export default function AdminDashboard() {
                         .map(([name, quantity]) => ({ name, quantity }))
                 );
 
-                // Set top products by revenue (from completed orders)
+                // set top products by revenue
                 setTopRevenueProducts(
                     Object.entries(productRevenue)
                         .sort((a, b) => b[1] - a[1])
@@ -180,13 +150,13 @@ export default function AdminDashboard() {
                                 currency: 'PHP',
                                 minimumFractionDigits: 2
                             }),
-                            rawRevenue: revenue // keep raw value for sorting
+                            rawRevenue: revenue
                         }))
                 );
 
                 setProductStatistics(Object.values(productStats));
 
-                // Fetch users
+                // fetch users
                 const usersResponse = await authFetch(`${API_BASE_URL}/users`);
                 const usersData = await usersResponse.json();
                 setUsers(usersData);
@@ -203,12 +173,12 @@ export default function AdminDashboard() {
         fetchData();
     }, []);
 
-    // Calculate order statistics
+    // calculate order statistics
     const pendingOrders = orders.filter(order => order.orderStatus === 0).length;
     const cancelledOrders = orders.filter(order => order.orderStatus === 2).length;
     const completedOrders = orders.filter(order => order.orderStatus === 1).length;
 
-    // Calculate user statistics
+    // calculate user statistics
     const totalCustomers = users.filter(u => u.userType === 'customer').length;
     const totalMerchants = users.filter(u => u.userType === 'merchant').length;
     const totalUsers = users.length;
@@ -220,7 +190,7 @@ export default function AdminDashboard() {
     });
 
     if (loading) return <HarvestLoadingScreen />;
-        if (error) return <div className="error-message">Error: {error}</div>;
+    if (error) return <div className="error-message">Error: {error}</div>;
 
     return (
         <div className="admin-dashboard">
@@ -249,7 +219,7 @@ export default function AdminDashboard() {
                                 cancelled: "TOTAL PRODUCTS SOLD",
                                 completed: "REMAINING PRODUCTS AVAILABLE"
                             }}
-                            isOrder = {false}
+                            isOrder={false}
                         />
                     </div>
                     <div className="square-right-tiles">
@@ -289,72 +259,72 @@ export default function AdminDashboard() {
                 </div>
                 <div className="under-tiles">
                     <div id="top-revenue-products-square-tile">
-                            <div className="text-square-revenue">
-                                <h2 className="top-revenue-products-header">
-                                    TOP SELLING PRODUCTS BY REVENUE
-                                </h2>
-                                <hr className="top-products-divider"></hr>
-                                {loading ? (
-                                    <div className="loading-placeholder">Loading revenue data...</div>
-                                ) : error ? (
-                                    <div className="error-message">{error}</div>
-                                ) : topRevenueProducts.length === 0 ? (
-                                    <div className="no-data">No revenue data available</div>
-                                ) : (
-                                    <ol className="revenue-list">
-                                        {topRevenueProducts.map((product, index) => (
-                                            <li key={index} className="revenue-item">
-                                                <span className="revenue-product-name">{product.name}</span>
-                                                <span className="revenue-product-revenue">{product.revenue}</span>
-                                            </li>
-                                        ))}
-                                    </ol>
-                                )}
-                                <hr className="top-products-divider"></hr>
-                            </div>
-                        </div>
-                        <div className='product-sales-statistics-block'>
-                            <h2 className='product-sales-statistics-header'>Product Sales Statistics</h2>
-
+                        <div className="text-square-revenue">
+                            <h2 className="top-revenue-products-header">
+                                TOP SELLING PRODUCTS BY REVENUE
+                            </h2>
+                            <hr className="top-products-divider"></hr>
                             {loading ? (
-                                <div>Loading product statistics...</div>
+                                <div className="loading-placeholder">Loading revenue data...</div>
                             ) : error ? (
                                 <div className="error-message">{error}</div>
+                            ) : topRevenueProducts.length === 0 ? (
+                                <div className="no-data">No revenue data available</div>
                             ) : (
-                                <div className="product-sales-statistics-list">
-                                    <div className="product-sales-statistics-product-name-category">
-                                        <div>PRODUCT NAME</div>
-                                        <div>UNIT PRICE</div>
-                                        <div>TOTAL UNITS SOLD</div>
-                                        <div>TOTAL REVENUE</div>
-                                    </div>
+                                <ol className="revenue-list">
+                                    {topRevenueProducts.map((product, index) => (
+                                        <li key={index} className="revenue-item">
+                                            <span className="revenue-product-name">{product.name}</span>
+                                            <span className="revenue-product-revenue">{product.revenue}</span>
+                                        </li>
+                                    ))}
+                                </ol>
+                            )}
+                            <hr className="top-products-divider"></hr>
+                        </div>
+                    </div>
+                    <div className='product-sales-statistics-block'>
+                        <h2 className='product-sales-statistics-header'>Product Sales Statistics</h2>
 
-                                    
+                        {loading ? (
+                            <div>Loading product statistics...</div>
+                        ) : error ? (
+                            <div className="error-message">{error}</div>
+                        ) : (
+                            <div className="product-sales-statistics-list">
+                                <div className="product-sales-statistics-product-name-category">
+                                    <div>PRODUCT NAME</div>
+                                    <div>UNIT PRICE</div>
+                                    <div>TOTAL UNITS SOLD</div>
+                                    <div>TOTAL REVENUE</div>
+                                </div>
 
-                                    {productStatistics.map((product) => (
-                                        <div className='product-sales-statistics-data-categories' key={product.id}>
-                                            <hr className="product-sales-divider"></hr>
-                                            <div className='product-sales-statistics-product-name'>
-                                                <div className="product-sales-statistics-product-name-category">
-                                                    
+
+
+                                {productStatistics.map((product) => (
+                                    <div className='product-sales-statistics-data-categories' key={product.id}>
+                                        <hr className="product-sales-divider"></hr>
+                                        <div className='product-sales-statistics-product-name'>
+                                            <div className="product-sales-statistics-product-name-category">
+
                                                 <div className="product-sales-statistics-data-field" id="product-sales-name">{product.name}</div>
                                                 <div className="product-sales-statistics-data-field" id="product-sales-unit-price">
                                                     ₱{product.price.toLocaleString('en-PH', { minimumFractionDigits: 2 })}
                                                 </div>
                                                 <div className="product-sales-statistics-data-field" id="product-sales-quantity">{product.totalQuantity}</div>
                                                 <div className="product-sales-statistics-data-field" id="product-sales-total-revenue">
-                                                ₱{product.totalRevenue.toLocaleString('en-PH', { minimumFractionDigits: 2 })}
+                                                    ₱{product.totalRevenue.toLocaleString('en-PH', { minimumFractionDigits: 2 })}
                                                 </div>
                                             </div>
-                                            </div>
-                                            <hr className="product-sales-divider"></hr>
                                         </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
+                                        <hr className="product-sales-divider"></hr>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
-                        
+
                 <div className="space"></div>
             </div>
             <Footer className="footer" />
