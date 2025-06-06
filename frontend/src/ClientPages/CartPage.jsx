@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Header from "../components/Header";
 import { useCart } from '../context/CartContext';
 import CartItem from "../components/CartItem";
@@ -8,16 +8,13 @@ import { useAuth } from '../context/AuthContext';
 import ConfirmationModal from '../components/ConfirmationModal'; 
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import CartService from '../services/CartService';
 import HarvestLoadingScreen from '../components/HarvestLoadingScreen';
 
 export default function CartPage() {
-  const { cartItems, updateQuantity, removeItem, clearCart, setCartItems } = useCart();
+  const { cartItems, updateQuantity, removeItem, clearCart, isLoadingCart } = useCart();
   const { user } = useAuth();
   const [submitting, setSubmitting] = useState(false);
-  const [showModal, setShowModal] = useState(false); 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const subtotal = cartItems.reduce(
     (sum, item) => sum + ((item.productPrice ?? 0) * item.quantity),
@@ -26,60 +23,16 @@ export default function CartPage() {
   const shippingFee = 20.00;
   const total = subtotal + shippingFee;
 
-
-  useEffect(() => {
-    const restoreCart = async () => {
-      if (!user) return;
-      setLoading(true); // start loading
-      try {
-        const saved = await CartService.getCart();
-        if (saved?.products?.length > 0) {
-          const restored = saved.products.map(item => ({
-            productID: item.productID._id || item.productID,
-            productName: item.productID.productName,
-            productPrice: item.productID.productPrice,
-            productImage: item.productID.productImage,
-            quantity: item.quantity
-          }));
-          setCartItems(restored);
-        }
-      } catch (err) {
-        console.error("Failed to restore cart:", err);
-        setError("Something went wrong while restoring the cart.");
-      } finally {
-        setLoading(false); // end loading
-      }
-    };
-
-    restoreCart();
-  }, [user]);
-
-
-  useEffect(() => {
-    const saveCart = async () => {
-      if (!user) return;
-
-      console.log("Saving cart to backend:", cartItems); // <-- Debug log
-
-      try {
-        await CartService.saveCart(cartItems.map(item => ({
-          productID: item.productID,
-          quantity: item.quantity
-        })));
-      } catch (err) {
-        console.error("Failed to save cart:", err);
-      }
-    };
-
-    saveCart();
-  }, [cartItems, user]);
-
   const handleProceedCheckout = () => {
     if (!user) {
-      alert("You must be logged in to checkout.");
+      toast.error("You must be logged in to checkout.");
       return;
     }
-    setShowModal(true); // show modal
+    if (cartItems.length === 0) {
+      toast.error("Your cart is empty.");
+      return;
+    }
+    setShowModal(true);
   };
 
   const handleConfirmCheckout = async () => {
@@ -96,7 +49,7 @@ export default function CartPage() {
       dateOrdered: new Date().toISOString(),
     };
 
-    console.log("Submitting orderPayload:", orderPayload);
+    console.log("Submitting order:", orderPayload);
 
     try {
       const response = await OrderService.createOrder(orderPayload);
@@ -105,14 +58,20 @@ export default function CartPage() {
       clearCart();
     } catch (error) {
       console.error("Checkout failed:", error);
-      if (error.response) {
-        console.error("Backend said:", error.response.data);
+      if (error.response?.data?.message) {
+        toast.error(`Checkout failed: ${error.response.data.message}`);
+      } else {
+        toast.error("Checkout failed. Please try again.");
       }
-      toast.error("Checkout failed. Please try again.");
     } finally {
       setSubmitting(false);
     }
   };
+
+  // Show loading screen while cart is being restored
+  if (isLoadingCart) {
+    return <HarvestLoadingScreen />;
+  }
 
   return (
     <div className="harvest-container">
@@ -123,7 +82,9 @@ export default function CartPage() {
 
         <div className="cart-content">
           {cartItems.length === 0 ? (
-            <div className="empty-cart-message">Your cart is empty.</div>
+            <div className="empty-cart-message">
+              Your cart is empty. Start shopping to add items!
+            </div>
           ) : (
             <div className="cart-items">
               {cartItems.map((item) => (
@@ -141,8 +102,9 @@ export default function CartPage() {
             subtotal={subtotal}
             shippingFee={shippingFee}
             total={total}
-            onCheckout={handleProceedCheckout} // changed from handleCheckout
+            onCheckout={handleProceedCheckout}
             submitting={submitting}
+            disabled={cartItems.length === 0}
           />
         </div>
       </div>
@@ -150,23 +112,24 @@ export default function CartPage() {
       {showModal && (
         <ConfirmationModal
           title="Confirm Checkout"
-          message="Are you sure you want to place this order?"
-          confirmText="Confirm"
+          message={`Are you sure you want to place this order for $${total.toFixed(2)}?`}
+          confirmText="Place Order"
           cancelText="Cancel"
           onCancel={() => setShowModal(false)}
           onConfirm={handleConfirmCheckout}
         />
       )}
-    <ToastContainer 
-      position="top-right" 
-      autoClose={2000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-    />
+
+      <ToastContainer 
+        position="top-right" 
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }
