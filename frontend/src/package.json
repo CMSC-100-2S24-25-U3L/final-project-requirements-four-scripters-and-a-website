@@ -10,7 +10,7 @@
     "vite": "^4.0.0"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node init && node server.js"
   },
   "name": "project-practice",
   "version": "1.0.0",

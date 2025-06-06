@@ -21,8 +21,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
-    <CartProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <CartProvider>
         <Router>
           <Routes>
             <Route path="/" element={<SplashPage />} />
@@ -40,8 +40,8 @@ function App() {
            
           </Routes>
         </Router>
-      </AuthProvider>
-    </CartProvider>
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

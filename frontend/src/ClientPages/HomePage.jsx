@@ -6,7 +6,7 @@ import FeaturedSection from '../components/FeaturedSection';
 import SearchBar from '../components/SearchBar'; 
 import { useCart } from '../context/CartContext';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';          
+import 'react-toastify/dist/ReactToastify.css';     
 
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState('ALL PRODUCTS');
@@ -15,6 +15,8 @@ export default function HomePage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
+ 
+
 
   const categories = ['ALL PRODUCTS', 'GRAINS', 'FRUITS', 'VEGETABLES', 'DAIRY', 'MEAT'];
 
